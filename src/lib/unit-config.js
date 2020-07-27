@@ -23,5 +23,10 @@ export default {
     'attack': 4,
     'defense': 1,
     'cost': 12
+  },
+  'aa': {
+    'attack': 0,
+    'defense': 1,
+    'cost': 5
   }
 };

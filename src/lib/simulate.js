@@ -1,16 +1,29 @@
-import { Unit } from './unit.js';
+import { Unit, InfantryUnit } from './unit.js';
 
 function buildUnits(unitSpec, unitConfig) {
+  let numArty = ('artillery' in unitSpec) ? unitSpec['artillery'] : 0;
   let units = Object.entries(unitSpec).map(([unitType, count]) => {
     if (!(unitType in unitConfig))
       throw `Unknown unit type: ${unitType}`;
 
     let stats = unitConfig[unitType];
-    return Array(count).fill(null).map(() => new Unit(
-      stats['attack'],
-      stats['defense'],
-      stats['cost']
-    ));
+    return Array(count).fill(null).map(() => {
+      if (unitType == 'infantry') {
+        return new InfantryUnit(
+          stats['attack'],
+          stats['defense'],
+          stats['cost'],
+          numArty-- > 0              // Pair inf with available arty
+        );
+      }
+      else {
+        return new Unit(
+          stats['attack'],
+          stats['defense'],
+          stats['cost']
+        );
+      }
+    });
   });
 
   // Flatten
@@ -84,5 +97,8 @@ export default function simulate(attackingUnits,
     });
   }
 
-  return results;
+  return {
+    n: n,
+    results: results
+  };
 }
