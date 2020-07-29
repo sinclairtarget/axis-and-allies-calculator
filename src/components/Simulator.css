@@ -1,0 +1,11 @@
+.Simulator {
+    display: flex;
+    flex-direction: column;
+    flex: 1 0 auto;
+}
+
+@media (min-width: 1024px) {
+    .Simulator {
+        flex-direction: row;
+    }
+}

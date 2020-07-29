@@ -1,0 +1,11 @@
+.SimulationResults {
+    background-color: #444;
+    min-height: 200px;
+}
+
+@media (min-width: 1024px) {
+    .SimulationResults {
+        flex: 2 1 auto;
+        order: 2;
+    }
+}
