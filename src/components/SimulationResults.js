@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './SimulationResults.css';
+import './SimulationResults.scss';
 
 function SimulationResults(props) {
   return <div className="SimulationResults"></div>;

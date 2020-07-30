@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './UnitSelector.css';
+import './UnitSelector.scss';
 
 function UnitSelector(props) {
   return <div className={`UnitSelector ${props.role}`}>

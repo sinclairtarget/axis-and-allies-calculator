@@ -1,10 +1,10 @@
+@import '../partials/constants';
+
 .SimulationResults {
     background-color: #444;
     min-height: 200px;
-}
 
-@media (min-width: 1024px) {
-    .SimulationResults {
+    @media (min-width: $desktop-width) {
         flex: 2 1 auto;
         order: 2;
     }

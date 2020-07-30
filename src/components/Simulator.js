@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import './Simulator.css';
+import './Simulator.scss';
 
 import UnitSelector from './UnitSelector.js';
 import SimulationResults from './SimulationResults.js';

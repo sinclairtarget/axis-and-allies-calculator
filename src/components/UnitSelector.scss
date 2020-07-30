@@ -1,0 +1,26 @@
+@import '../partials/constants';
+@import '../partials/palette';
+
+.UnitSelector {
+    &.attack {
+        background-color: $attacker-red;
+        border-right: 14px solid rgba(0, 0, 0, 0.15);
+    }
+
+    &.defense {
+        background-color: $defender-blue;
+        border-left: 14px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .button {
+        height: 60px;
+        background-color: #ccc;
+        margin: 20px;
+    }
+
+    @media (min-width: $desktop-width) {
+        flex: 1 1 auto;
+        &.attack { order: 1; }
+        &.defense { order: 3; }
+    }
+}
