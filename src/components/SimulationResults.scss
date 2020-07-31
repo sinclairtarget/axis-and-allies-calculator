@@ -4,6 +4,28 @@
     background-color: #444;
     min-height: 200px;
 
+    .title {
+        font-size: 2rem;
+        text-align: center;
+        margin: 0.7em;
+        color: #adadad;
+    }
+
+    .simulate {
+        margin: auto;
+        margin-top: 50px;
+        background-color: #396d2f;
+        max-width: 200px;
+        text-align: center;
+        font-size: 1.8rem;
+        padding: 12px;
+        color: #eee;
+        border-radius: 12px;
+        border-bottom: 4px solid #005200;
+        border-right: 4px solid #005200;
+        cursor: pointer;
+    }
+
     @media (min-width: $desktop-width) {
         flex: 2 1 auto;
         order: 2;

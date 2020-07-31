@@ -1,0 +1,33 @@
+.UnitSummary {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    padding: 0px 20px;
+
+    .box {
+        flex: 1 1 auto;
+        min-height: 400px;
+        box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .box:not(:last-child) {
+        margin-right: 20px;
+    }
+
+    .vs-box {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: #373737;
+        border-radius: 25%;
+        padding: 10px;
+    }
+
+    .vs-title {
+        font-size: 1.5rem;
+        color: #eee;
+        margin: 0;
+        text-transform: uppercase;
+    }
+}
