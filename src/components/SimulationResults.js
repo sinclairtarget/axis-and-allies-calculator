@@ -15,7 +15,7 @@ function SimulationResults(props) {
   else {
     return (
       <div className="SimulationResults">
-        <h2 className="title">Unit Selection</h2>
+        <h2 className="title" title="Unit Selection">Unit Selection</h2>
         <UnitSummary />
         <div className="simulate">Simulate</div>
       </div>

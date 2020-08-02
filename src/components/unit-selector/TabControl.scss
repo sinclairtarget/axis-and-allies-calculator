@@ -1,0 +1,28 @@
+@import '../../partials/palette';
+
+.TabControl {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0.15);
+
+    li {
+        display: inline-block;
+        padding: 12px;
+        color: #eee;
+        font-size: 1.2rem;
+        width: 60px;
+        text-align: center;
+        border-radius: 12px 12px 0px 0px;
+    }
+}
+
+.TabControl.attack li.selected {
+    font-weight: bold;
+    background-color: $attacker-red;
+}
+
+.TabControl.defense li.selected {
+    font-weight: bold;
+    background-color: $defender-blue;
+}

@@ -7,7 +7,8 @@
     .box {
         flex: 1 1 auto;
         min-height: 400px;
-        box-shadow: inset 0px 0px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.4);
+        border-radius: 10px;
     }
 
     .box:not(:last-child) {

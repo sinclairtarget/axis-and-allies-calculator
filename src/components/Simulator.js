@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import './Simulator.scss';
 
-import UnitSelector from './UnitSelector.js';
+import UnitSelector from './unit-selector/UnitSelector.js';
 import SimulationResults from './SimulationResults.js';
 import unitConfig from '../lib/unit-config.js';
 import simulate from '../lib/simulate.js';
