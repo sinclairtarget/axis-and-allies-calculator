@@ -12,14 +12,9 @@
         border-left: 14px solid rgba(0, 0, 0, 0.15);
     }
 
-    .button {
-        height: 60px;
-        background-color: #ccc;
-        margin: 20px;
-    }
-
     @media (min-width: $desktop-width) {
-        flex: 1 1 auto;
+        flex: 0 0 auto;
+        width: 23%;
         &.attack { order: 1; }
         &.defense { order: 3; }
     }

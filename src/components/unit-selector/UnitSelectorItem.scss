@@ -1,0 +1,38 @@
+.UnitSelectorItem {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid #eee;
+    border-radius: 10px;
+    color: #eee;
+    position: relative;
+
+    &:not(:last-child) {
+        margin-bottom: 18px;
+    }
+
+    .unit-info {
+        flex: 1 1 auto;
+    }
+
+    .unit-title {
+        font-size: 1.4rem;
+        margin: 6px 0;
+    }
+
+    .unit-description {
+        font-size: 1.2rem;
+        margin: 6px 0;
+    }
+
+    .unit-cost {
+        display: block;
+        font-size: 2rem;
+        flex: 0 0 auto;
+        margin-right: 24px;
+    }
+
+    & > div:not(:last-child) {
+        margin-right: 12px;
+    }
+}

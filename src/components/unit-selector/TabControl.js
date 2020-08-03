@@ -3,22 +3,12 @@ import React, { Component } from 'react';
 import './TabControl.scss';
 
 class TabControl extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      selected: props.selected
-    };
-  }
-
   handleClick(tabKey) {
-    this.setState({
-      selected: tabKey
-    });
+    this.props.onSwitch(tabKey);
   }
 
   tabClasses(tabKey) {
-    if (tabKey == this.state.selected)
+    if (tabKey == this.props.selected)
       return tabKey + ' selected';
     else
       return tabKey;

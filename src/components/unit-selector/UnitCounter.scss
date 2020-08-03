@@ -1,0 +1,43 @@
+.UnitCounter {
+    div {
+        vertical-align: middle;
+    }
+
+    .count-display {
+        display: inline-block;
+        color: #eee;
+        background-color: rgba(0, 0, 0, 0.15);
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        position: relative;
+        text-align: center;
+        margin: 0 2px;
+    }
+
+    .count {
+        margin: 0;
+        font-size: 2rem;
+        position: absolute;
+        top: 50%; left: 50%;
+        transform: translate(-50%, -50%);
+    }
+
+    .button {
+        display: inline-block;
+        font-size: 2rem;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        width: 32px;
+        height: 32px;
+        position: relative;
+
+        p {
+            margin: 0;
+            padding: 0;
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}
