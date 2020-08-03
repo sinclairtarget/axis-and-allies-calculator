@@ -5,13 +5,28 @@ import TabControl from './TabControl.js';
 import './UnitSelector.scss';
 
 function UnitSelector(props) {
-  return <div className={`UnitSelector ${props.role}`}>
-           <TabControl role={props.role} />
-           <div className="button"></div>
-           <div className="button"></div>
-           <div className="button"></div>
-           <div className="button"></div>
-         </div>;
+  let tabs = [
+    {
+      key: 'land',
+      name: 'Land'
+    },
+    {
+      key: 'sea',
+      name: 'Sea'
+    },
+    {
+      key: 'air',
+      name: 'Air'
+    }
+  ];
+
+  return (
+    <div className={`UnitSelector ${props.role}`}>
+      <TabControl role={props.role}
+                  tabs={tabs}
+                  selected='land' />
+    </div>
+  );
 }
 
 export default UnitSelector;
