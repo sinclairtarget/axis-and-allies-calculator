@@ -4,6 +4,7 @@ import './Simulator.scss';
 
 import UnitSelector from './unit-selector/UnitSelector.js';
 import SimulationResults from './SimulationResults.js';
+import BattlePreview from './BattlePreview.js';
 import unitConfig from '../lib/unit-config.js';
 import simulate from '../lib/simulate.js';
 
@@ -62,7 +63,7 @@ class Simulator extends Component {
           units={this.state.units['defense']}
           onUpdate={(change) => this.handleSelectorUpdate('defense', change)}
         />
-        <SimulationResults />
+        <BattlePreview unitConfig={unitConfig} units={this.state.units} />
       </div>
     );
   }

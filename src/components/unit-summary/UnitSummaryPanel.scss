@@ -1,0 +1,38 @@
+.UnitSummaryPanel {
+    min-height: 300px;
+    box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.4);
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+
+    .summary {
+        flex: 1 1 auto;
+
+        .UnitSummaryItem {
+            display: inline-block;
+            margin: 12px;
+        }
+    }
+
+    .statistics {
+        color: #eee;
+        background-color: #373737;
+        border-radius: 10px;
+        padding: 12px;
+        margin: auto;
+        flex: 0 0 auto;
+
+        td.label {
+            font-weight: bold;
+        }
+
+        td {
+            font-size: 1.2rem;
+        }
+
+        td:not(:last-child) {
+            padding-right: 12px;
+        }
+    }
+}

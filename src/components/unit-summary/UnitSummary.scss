@@ -1,18 +1,14 @@
+@import '../../partials/constants';
+
 .UnitSummary {
     position: relative;
     display: flex;
-    flex-direction: row;
     padding: 0px 20px;
+    flex-direction: column;
 
-    .box {
-        flex: 1 1 auto;
-        min-height: 400px;
-        box-shadow: inset 0px 0px 8px rgba(0, 0, 0, 0.4);
-        border-radius: 10px;
-    }
-
-    .box:not(:last-child) {
-        margin-right: 20px;
+    .UnitSummaryPanel {
+        flex: 1 1 50%;
+        margin: 12px;
     }
 
     .vs-box {
@@ -26,9 +22,13 @@
     }
 
     .vs-title {
-        font-size: 1.5rem;
+        font-size: 1.8rem;
         color: #eee;
         margin: 0;
         text-transform: uppercase;
+    }
+
+    @media (min-width: $desktop-width) {
+        flex-direction: row;
     }
 }

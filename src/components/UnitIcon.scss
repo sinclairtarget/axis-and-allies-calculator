@@ -1,3 +1,5 @@
+@import '../partials/palette';
+
 .UnitIcon {
     color: #222;
     background-color: #eee;
@@ -14,5 +16,18 @@
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
+    }
+
+    &.attack, &.defense {
+        color: #eee;
+        border: 1px solid #eee;
+    }
+
+    &.attack {
+        background-color: $attacker-red;
+    }
+
+    &.defense {
+        background-color: $defender-blue;
     }
 }

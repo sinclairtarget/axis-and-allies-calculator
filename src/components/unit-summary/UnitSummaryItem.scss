@@ -1,0 +1,16 @@
+.UnitSummaryItem {
+    color: #eee;
+
+    & > * {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .UnitIcon {
+        margin-right: 6px;
+    }
+
+    .count {
+        font-size: 1.4rem;
+    }
+}
