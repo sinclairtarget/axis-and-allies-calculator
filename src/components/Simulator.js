@@ -37,10 +37,18 @@ class Simulator extends Component {
     else
       map.set(change.key, clamp(change.change, 0, MAX_UNITS));
 
+    this.setUnits(role, map);
+  }
+
+  handleUnitSummaryClear(role) {
+    this.setUnits(role, new Map());
+  }
+
+  setUnits(role, unitMap) {
     this.setState((state) => {
       let otherRole = role == 'attack' ? 'defense' : 'attack';
       let newUnits = {};
-      newUnits[role] = new Map(map);
+      newUnits[role] = new Map(unitMap);
       newUnits[otherRole] = state.units[otherRole];
       return {
         units: newUnits
@@ -63,7 +71,9 @@ class Simulator extends Component {
           units={this.state.units['defense']}
           onUpdate={(change) => this.handleSelectorUpdate('defense', change)}
         />
-        <BattlePreview unitConfig={unitConfig} units={this.state.units} />
+        <BattlePreview unitConfig={unitConfig}
+                       units={this.state.units}
+                       onClear={(role) => this.handleUnitSummaryClear(role)} />
       </div>
     );
   }

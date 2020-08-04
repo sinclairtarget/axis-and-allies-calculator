@@ -5,15 +5,24 @@ import InsetHeading from './InsetHeading.js';
 
 import './BattlePreview.scss';
 
-function BattlePreview(props) {
-  return (
-    <div className="BattlePreview">
-      <InsetHeading text="Unit Selection" />
-      <UnitSummary unitConfig={props.unitConfig}
-                   units={props.units} />
-      <div className="simulate">Simulate</div>
-    </div>
-  );
+class BattlePreview extends Component {
+  handleClear(role) {
+    this.props.onClear(role);
+  }
+
+  render() {
+    let props = this.props;
+
+    return (
+      <div className="BattlePreview">
+        <InsetHeading text="Unit Selection" />
+        <UnitSummary unitConfig={props.unitConfig}
+                     units={props.units}
+                     onClear={(role) => this.handleClear(role)} />
+        <div className="simulate">Simulate</div>
+      </div>
+    );
+  }
 }
 
 export default BattlePreview;
