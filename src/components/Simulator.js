@@ -51,14 +51,47 @@ class Simulator extends Component {
       newUnits[role] = new Map(unitMap);
       newUnits[otherRole] = state.units[otherRole];
       return {
-        units: newUnits
+        units: newUnits,
+        simulation: null       // Clear simulation if units change
       };
     });
   }
 
+  handleSimulateClick() {
+    this.setState({
+      simulation: 'foo'
+    });
+  }
+
+  getClasses() {
+    if (this.state.simulation) {
+      return "Simulator simulation";
+    }
+    else {
+      return "Simulator selection";
+    }
+  }
+
   render() {
+    let mainItem;
+    if (this.state.simulation) {
+      mainItem = (
+        <SimulationResults simulation={this.state.simulation} />
+      );
+    }
+    else {
+      mainItem = (
+        <BattlePreview
+          unitConfig={unitConfig}
+          units={this.state.units}
+          onClear={(role) => this.handleUnitSummaryClear(role)}
+          onSimulateClick={() => this.handleSimulateClick()}
+        />
+      );
+    }
+
     return (
-      <div className="Simulator">
+      <div className={this.getClasses()}>
         <UnitSelector
           role="attack"
           unitConfig={unitConfig}
@@ -72,10 +105,7 @@ class Simulator extends Component {
           onUpdate={(change) => this.handleSelectorUpdate('defense', change)}
         />
         <main>
-          <BattlePreview
-            unitConfig={unitConfig}
-            units={this.state.units}
-            onClear={(role) => this.handleUnitSummaryClear(role)} />
+          {mainItem}
           <footer>
             <p>
               Created by <a href="https://sinclairtarget.com">Sinclair Target</a>

@@ -10,6 +10,10 @@ class BattlePreview extends Component {
     this.props.onClear(role);
   }
 
+  handleClick() {
+    this.props.onSimulateClick();
+  }
+
   render() {
     let props = this.props;
 
@@ -19,7 +23,9 @@ class BattlePreview extends Component {
         <UnitSummary unitConfig={props.unitConfig}
                      units={props.units}
                      onClear={(role) => this.handleClear(role)} />
-        <div className="simulate">Simulate</div>
+        <button className="simulate" onClick={() => this.handleClick()}>
+          Simulate
+        </button>
       </div>
     );
   }

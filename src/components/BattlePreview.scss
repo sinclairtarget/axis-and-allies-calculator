@@ -10,15 +10,17 @@
     }
 
     .simulate {
+        display: block;
         margin: 26px auto;
         background-color: #396d2f;
-        max-width: 200px;
+        width: 200px;
         text-align: center;
         font-size: 2.2rem;
         font-weight: bold;
         padding: 12px;
         color: #eee;
         border-radius: 12px;
+        border: none;
         border-bottom: 4px solid #005200;
         border-right: 4px solid #005200;
         cursor: pointer;
