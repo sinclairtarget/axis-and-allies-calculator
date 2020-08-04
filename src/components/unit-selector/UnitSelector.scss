@@ -2,20 +2,44 @@
 @import '../../partials/palette';
 
 .UnitSelector {
+    display: flex;
+    flex-direction: column;
+    padding: 12px 0;
+
+    .InsetHeading {
+        font-size: 2rem;
+        margin: 0px;
+        color: rgba(0, 0, 0, 0.7);
+        margin-bottom: 12px;
+    }
+
+    .TabControl {
+        flex: 0 0 auto;
+    }
+
+    .UnitSelectorList {
+        flex: 1 1 auto;
+    }
+
     &.attack {
-        background-color: $attacker-red;
-        border-right: 14px solid rgba(0, 0, 0, 0.15);
+        background-color: darken($attacker-red, 6%);
+
+        .UnitSelectorList {
+            background-color: $attacker-red;
+        }
     }
 
     &.defense {
-        background-color: $defender-blue;
-        border-left: 14px solid rgba(0, 0, 0, 0.15);
+        background-color: darken($defender-blue, 10%);
+
+        .UnitSelectorList {
+            background-color: $defender-blue;
+        }
     }
 
     @media (min-width: $desktop-width) {
-        flex: 0 0 auto;
-        width: 23%;
-        &.attack { order: 1; }
-        &.defense { order: 3; }
+        padding-bottom: 0px;
+        &.attack { padding-right: 12px; }
+        &.defense { padding-left: 12px; }
     }
 }

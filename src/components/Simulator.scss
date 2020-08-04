@@ -7,5 +7,18 @@
 
     @media (min-width: $desktop-width) {
         flex-direction: row;
+
+        .UnitSelector {
+            flex: 0 0 auto;
+            width: 420px;
+
+            &.attack {
+                order: 1;
+            }
+
+            &.defense {
+                order: 3;
+            }
+        }
     }
 }

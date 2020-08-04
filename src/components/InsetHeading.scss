@@ -1,0 +1,13 @@
+.InsetHeading {
+    text-align: center;
+    position: relative;
+
+    &:before, &:after {
+        content: attr(text);
+        color: rgba(255, 255, 255, .06);
+        position: absolute;
+        top: 1px;
+        left: calc(50% + 1px);
+        transform: translateX(-50%);
+    }
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import TabControl from './TabControl.js';
 import UnitSelectorList from './UnitSelectorList.js';
+import InsetHeading from '../InsetHeading.js';
 
 import './UnitSelector.scss';
 
@@ -48,9 +49,14 @@ class UnitSelector extends Component {
     );
   }
 
+  labelForRole() {
+    return this.props.role == 'attack' ? 'Attacker' : 'Defender';
+  }
+
   render() {
     return (
       <div className={`UnitSelector ${this.props.role}`}>
+        <InsetHeading text={this.labelForRole()} />
         <TabControl role={this.props.role}
                     tabs={TABS}
                     selected={this.state.unitDomain}

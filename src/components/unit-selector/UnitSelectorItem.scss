@@ -11,6 +11,11 @@
         margin-bottom: 18px;
     }
 
+    .UnitIcon {
+        flex: 0 0 auto;
+        margin-right: 12px;
+    }
+
     .unit-info {
         flex: 1 1 auto;
     }
@@ -21,7 +26,7 @@
     }
 
     .unit-description {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         margin: 6px 0;
     }
 
@@ -29,10 +34,10 @@
         display: block;
         font-size: 2rem;
         flex: 0 0 auto;
-        margin-right: 24px;
+        margin: 0px 24px;
     }
 
-    & > div:not(:last-child) {
-        margin-right: 12px;
+    .UnitCounter {
+        flex: 0 0 auto;
     }
 }
