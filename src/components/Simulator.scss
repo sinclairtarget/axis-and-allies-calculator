@@ -5,6 +5,41 @@
     flex-direction: column;
     flex: 1 0 auto;
 
+    main {
+        display: flex;
+        flex-direction: column;
+
+        .BattlePreview {
+            flex: 1 1 auto;
+        }
+
+        footer {
+            color: #aaa;
+            font-size: 1.2rem;
+            text-align: center;
+            border-top: 1px solid #666;
+            width: 260px;
+            margin: auto;
+            margin-bottom: 12px;
+            padding: 12px;
+            flex: 0 0 auto;
+
+            p {
+                margin: 0;
+                margin-bottom: 12px;
+            }
+
+            img {
+                width: 32px;
+                height: 32px;
+            }
+
+            a, a:visited {
+                color: #bbb;
+            }
+        }
+    }
+
     @media (min-width: $desktop-width) {
         flex-direction: row;
 
@@ -21,9 +56,10 @@
             }
         }
 
-        .BattlePreview {
+        main {
             flex: 1 1 auto;
             order: 2;
         }
     }
+
 }

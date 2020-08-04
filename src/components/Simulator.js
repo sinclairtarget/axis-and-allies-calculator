@@ -71,9 +71,20 @@ class Simulator extends Component {
           units={this.state.units['defense']}
           onUpdate={(change) => this.handleSelectorUpdate('defense', change)}
         />
-        <BattlePreview unitConfig={unitConfig}
-                       units={this.state.units}
-                       onClear={(role) => this.handleUnitSummaryClear(role)} />
+        <main>
+          <BattlePreview
+            unitConfig={unitConfig}
+            units={this.state.units}
+            onClear={(role) => this.handleUnitSummaryClear(role)} />
+          <footer>
+            <p>
+              Created by <a href="https://sinclairtarget.com">Sinclair Target</a>
+            </p>
+            <a href="https://github.com/sinclairtarget/axis-and-allies-calculator">
+              <img src="/images/github.svg" />
+            </a>
+          </footer>
+        </main>
       </div>
     );
   }
