@@ -36,6 +36,18 @@ class UnitSelector extends Component {
     });
   }
 
+  handleUnitUpdate(change) {
+    this.props.onUpdate(change);
+  }
+
+  configForDomain(domain) {
+    return Object.fromEntries(
+      Object.entries(this.props.unitConfig).filter(([unitKey, unit]) => {
+        return unit.domain == domain;
+      })
+    );
+  }
+
   render() {
     return (
       <div className={`UnitSelector ${this.props.role}`}>
@@ -43,7 +55,10 @@ class UnitSelector extends Component {
                     tabs={TABS}
                     selected={this.state.unitDomain}
                     onSwitch={(tabKey) => this.handleTabSwitch(tabKey)} />
-        <UnitSelectorList units={this.props.units[this.state.unitDomain]} />
+        <UnitSelectorList
+          units={this.props.units}
+          unitConfig={this.configForDomain(this.state.unitDomain)}
+          onUpdate={(change) => this.handleUnitUpdate(change)} />
       </div>
     );
   }

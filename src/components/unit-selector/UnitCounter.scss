@@ -1,5 +1,5 @@
 .UnitCounter {
-    div {
+    & > * {
         vertical-align: middle;
     }
 
@@ -23,7 +23,7 @@
         transform: translate(-50%, -50%);
     }
 
-    .button {
+    button {
         display: inline-block;
         font-size: 2rem;
         border: 1px solid #eee;
@@ -31,12 +31,22 @@
         width: 32px;
         height: 32px;
         position: relative;
+        cursor: pointer;
+        user-select: none;
+        color: inherit;
+        background-color: inherit;
+
+        &:active {
+            color: #222;
+            background-color: #eee;
+        }
 
         p {
             margin: 0;
             padding: 0;
             position: absolute;
-            top: 50%; left: 50%;
+            top: 44%;
+            left: 50%;
             transform: translate(-50%, -50%);
         }
     }
