@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 import UnitSummary from './unit-summary/UnitSummary.js';
 import InsetHeading from './InsetHeading.js';
+import Button from './Button.js';
 
 import './BattlePreview.scss';
 
@@ -17,15 +18,18 @@ class BattlePreview extends Component {
   render() {
     let props = this.props;
 
+    let anyUnits = props.units['attack'].size > 0 || props.units['defense'].size > 0;
+
     return (
       <div className="BattlePreview">
         <InsetHeading text="Unit Selection" />
         <UnitSummary unitConfig={props.unitConfig}
                      units={props.units}
                      onClear={(role) => this.handleClear(role)} />
-        <button className="simulate" onClick={() => this.handleClick()}>
+        <Button onClick={() => this.handleClick()}
+                enabled={anyUnits}>
           Simulate
-        </button>
+        </Button>
       </div>
     );
   }

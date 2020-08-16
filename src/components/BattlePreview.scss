@@ -9,10 +9,10 @@
         color: rgba(0, 0, 0, 0.7);
     }
 
-    .simulate {
+    .Button {
         display: block;
         margin: 26px auto;
-        background-color: #396d2f;
+        background-color: #3d872e;
         width: 200px;
         text-align: center;
         font-size: 2.2rem;
@@ -23,6 +23,10 @@
         border: none;
         border-bottom: 4px solid #005200;
         border-right: 4px solid #005200;
-        cursor: pointer;
+
+        &.disabled {
+            background-color: #676b66;
+            border-color: #4d514c;
+        }
     }
 }

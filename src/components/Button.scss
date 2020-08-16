@@ -1,0 +1,7 @@
+.Button {
+    cursor: pointer;
+
+    &.disabled {
+        cursor: default;
+    }
+}
