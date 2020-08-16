@@ -17,6 +17,14 @@ export class OrderOfBattle {
     return this.totalUnits(ATTACKER_SIDE) + this.totalUnits(DEFENDER_SIDE) > 0;
   }
 
+  get attackingUnits() {
+    return this.units[ATTACKER_SIDE];
+  }
+
+  get defendingUnits() {
+    return this.units[DEFENDER_SIDE];
+  }
+
   unitCount(side, unitKey) {
     return this.units[side].get(unitKey) || 0;
   }

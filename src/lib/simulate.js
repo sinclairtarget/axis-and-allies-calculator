@@ -1,8 +1,9 @@
 import { Unit, InfantryUnit } from './unit.js';
+import SimulationResults from './simulation-results.js';
 
-function buildUnits(unitSpec, unitConfig) {
-  let numArty = ('artillery' in unitSpec) ? unitSpec['artillery'] : 0;
-  let units = Object.entries(unitSpec).map(([unitType, count]) => {
+function buildUnits(unitCounts, unitConfig) {
+  let numArty = unitCounts.has('artillery') ? unitCounts.get('artillery') : 0;
+  let units = Array.from(unitCounts.entries()).map(([unitType, count]) => {
     if (!(unitType in unitConfig))
       throw `Unknown unit type: ${unitType}`;
 
@@ -30,15 +31,14 @@ function buildUnits(unitSpec, unitConfig) {
   return units.reduce((a, b) => a.concat(b), []);
 }
 
-export default function simulate(attackingUnits,
-                                 defendingUnits,
-                                 unitConfig,
-                                 n)
+export default function simulate(orderOfBattle, n)
 {
+  console.time('simulate');
+
   // Go through and validate unit lists
   // Transform into objects
-  let atk = buildUnits(attackingUnits, unitConfig);
-  let def = buildUnits(defendingUnits, unitConfig);
+  let atk = buildUnits(orderOfBattle.attackingUnits, orderOfBattle.unitConfig);
+  let def = buildUnits(orderOfBattle.defendingUnits, orderOfBattle.unitConfig);
 
   // Sort by cost, so lower cost units get hit first
   atk.sort((a, b) => a.cost > b.cost ? 1 : -1);
@@ -97,8 +97,7 @@ export default function simulate(attackingUnits,
     });
   }
 
-  return {
-    n: n,
-    results: results
-  };
+  console.timeEnd('simulate');
+
+  return new SimulationResults(n, results);
 }

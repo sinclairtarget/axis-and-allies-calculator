@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 
 import InsetHeading from './InsetHeading.js';
 
-import './SimulationResults.scss';
+import './SimulationReview.scss';
 
-function SimulationResults(props) {
+function SimulationReview(props) {
   return (
-    <div className="SimulationResults">
+    <div className="SimulationReview">
       <InsetHeading text="Simulation Results" />
     </div>
   );
 }
 
-export default SimulationResults;
+export default SimulationReview;
