@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import TabControl from './TabControl.js';
 import UnitSelectorList from './UnitSelectorList.js';
 import InsetHeading from '../InsetHeading.js';
+import { ATTACKER_SIDE } from '../../lib/order-of-battle.js';
 
 import './UnitSelector.scss';
 
@@ -37,34 +38,27 @@ class UnitSelector extends Component {
     });
   }
 
-  handleUnitUpdate(change) {
-    this.props.onUpdate(change);
+  handleUnitUpdate(unitKey, delta) {
+    this.props.onUpdate(unitKey, delta);
   }
 
-  configForDomain(domain) {
-    return Object.fromEntries(
-      Object.entries(this.props.unitConfig).filter(([unitKey, unit]) => {
-        return unit.domain == domain;
-      })
-    );
-  }
-
-  labelForRole() {
-    return this.props.role == 'attack' ? 'Attacker' : 'Defender';
+  labelForSide() {
+    return this.props.side == ATTACKER_SIDE ? 'Attacker' : 'Defender';
   }
 
   render() {
     return (
-      <div className={`UnitSelector ${this.props.role}`}>
-        <InsetHeading text={this.labelForRole()} />
-        <TabControl role={this.props.role}
+      <div className={`UnitSelector ${this.props.side}`}>
+        <InsetHeading text={this.labelForSide()} />
+        <TabControl side={this.props.side}
                     tabs={TABS}
                     selected={this.state.unitDomain}
                     onSwitch={(tabKey) => this.handleTabSwitch(tabKey)} />
         <UnitSelectorList
           units={this.props.units}
-          unitConfig={this.configForDomain(this.state.unitDomain)}
-          onUpdate={(change) => this.handleUnitUpdate(change)} />
+          side={this.props.side}
+          domain={this.state.unitDomain}
+          onUpdate={(unitKey, delta) => this.handleUnitUpdate(unitKey, delta)} />
       </div>
     );
   }

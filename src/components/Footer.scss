@@ -1,0 +1,25 @@
+footer {
+    color: #aaa;
+    font-size: 1.2rem;
+    text-align: center;
+    border-top: 1px solid #666;
+    width: 260px;
+    margin: auto;
+    margin-bottom: 12px;
+    padding: 12px;
+    flex: 0 0 auto;
+
+    p {
+        margin: 0;
+        margin-bottom: 12px;
+    }
+
+    img {
+        width: 32px;
+        height: 32px;
+    }
+
+    a, a:visited {
+        color: #bbb;
+    }
+}

@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 
 import UnitSummaryPanel from './UnitSummaryPanel.js';
+import { ATTACKER_SIDE, DEFENDER_SIDE } from '../../lib/order-of-battle.js';
 
 import './UnitSummary.scss';
 
 class UnitSummary extends Component {
-  handleClear(role) {
-    this.props.onClear(role);
+  handleClear(side) {
+    this.props.onClear(side);
   }
 
   render() {
@@ -14,17 +15,15 @@ class UnitSummary extends Component {
 
     return (
       <div className="UnitSummary">
-        <UnitSummaryPanel role='attack'
-                          unitConfig={props.unitConfig}
-                          units={props.units['attack']}
-                          onClear={() => this.handleClear('attack')} />
+        <UnitSummaryPanel side={ATTACKER_SIDE}
+                          units={props.units}
+                          onClear={() => this.handleClear(ATTACKER_SIDE)} />
         <div className="vs-box">
           <h4 className="vs-title">vs</h4>
         </div>
-        <UnitSummaryPanel role='defense'
-                          unitConfig={props.unitConfig}
-                          units={props.units['defense']}
-                          onClear={() => this.handleClear('defense')} />
+        <UnitSummaryPanel side={DEFENDER_SIDE}
+                          units={props.units}
+                          onClear={() => this.handleClear(DEFENDER_SIDE)} />
       </div>
     );
   }

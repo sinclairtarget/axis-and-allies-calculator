@@ -5,21 +5,19 @@ import UnitSelectorItem from './UnitSelectorItem.js';
 import './UnitSelectorList.scss';
 
 class UnitSelectorList extends Component {
-  handleUpdate(unitChange, unitKey) {
-    this.props.onUpdate({
-      key: unitKey,
-      change: unitChange
-    });
+  handleUpdate(unitKey, delta) {
+    this.props.onUpdate(unitKey, delta);
   }
 
   render() {
-    let items = Object.entries(this.props.unitConfig).map(([unitKey, unit]) => {
+    let unitConfig = this.props.units.configForDomain(this.props.domain);
+    let items = Object.entries(unitConfig).map(([unitKey, unit]) => {
       return (
         <UnitSelectorItem
           key={unitKey}
           unit={unit}
-          count={this.props.units.get(unitKey) || 0}
-          onUpdate={(change) => this.handleUpdate(change, unitKey)} />
+          count={this.props.units.unitCount(this.props.side, unitKey)}
+          onUpdate={(delta) => this.handleUpdate(unitKey, delta)} />
       );
     });
 

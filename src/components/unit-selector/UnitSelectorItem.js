@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 
 import UnitIcon from '../UnitIcon.js';
 import UnitCounter from './UnitCounter.js';
+import Button from '../Button.js';
 
 import './UnitSelectorItem.scss';
 
 class UnitSelectorItem extends Component {
-  handleUpdate(unitChange) {
-    this.props.onUpdate(unitChange);
+  handleUpdate(delta) {
+    this.props.onUpdate(delta);
   }
 
   render() {
@@ -22,7 +23,7 @@ class UnitSelectorItem extends Component {
         </div>
         <h2 className="unit-cost">{this.props.unit.cost}</h2>
         <UnitCounter count={this.props.count}
-                     onUpdate={(change) => this.handleUpdate(change)} />
+                     onUpdate={(delta) => this.handleUpdate(delta)} />
       </li>
     );
   }

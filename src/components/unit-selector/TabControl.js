@@ -24,7 +24,7 @@ class TabControl extends Component {
     });
 
     return (
-      <ul className={`TabControl ${this.props.role}`}>
+      <ul className={`TabControl ${this.props.side}`}>
         {tabItems}
       </ul>
     );

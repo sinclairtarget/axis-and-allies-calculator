@@ -18,8 +18,6 @@ class BattlePreview extends Component {
   render() {
     let props = this.props;
 
-    let anyUnits = props.units['attack'].size > 0 || props.units['defense'].size > 0;
-
     return (
       <div className="BattlePreview">
         <InsetHeading text="Unit Selection" />
@@ -27,7 +25,7 @@ class BattlePreview extends Component {
                      units={props.units}
                      onClear={(role) => this.handleClear(role)} />
         <Button onClick={() => this.handleClick()}
-                enabled={anyUnits}>
+                enabled={props.units.any}>
           Simulate
         </Button>
       </div>
