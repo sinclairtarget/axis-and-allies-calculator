@@ -1,0 +1,31 @@
+@import '../../partials/constants';
+
+.SimulationReview {
+    .InsetHeading {
+        font-size: 2.4rem;
+        margin: 0.7em;
+        color: rgba(0, 0, 0, 0.7);
+    }
+
+    .sections {
+        padding-top: 12px;
+        max-width: 640px;
+        margin: auto;
+    }
+
+    .FatButton {
+        color: #eee;
+        background-color: inherit;
+        border: 1px solid #eee;
+
+        span {
+            position: relative;
+
+            &:before {
+                content: "\2190";
+                position: absolute;
+                left: -40px;
+            }
+        }
+    }
+}

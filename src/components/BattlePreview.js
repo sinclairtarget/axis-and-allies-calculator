@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import UnitSummary from './unit-summary/UnitSummary.js';
 import InsetHeading from './InsetHeading.js';
-import Button from './Button.js';
+import FatButton from './FatButton.js';
 
 import './BattlePreview.scss';
 
@@ -24,10 +24,10 @@ class BattlePreview extends Component {
         <UnitSummary unitConfig={props.unitConfig}
                      units={props.units}
                      onClear={(role) => this.handleClear(role)} />
-        <Button onClick={() => this.handleClick()}
+        <FatButton onClick={() => this.handleClick()}
                 enabled={props.units.any}>
           Simulate
-        </Button>
+        </FatButton>
       </div>
     );
   }

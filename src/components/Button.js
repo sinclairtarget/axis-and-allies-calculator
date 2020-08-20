@@ -10,6 +10,9 @@ class Button extends Component {
 
   render() {
     let classes = this.props.enabled ? "Button" : "Button disabled";
+    if (this.props.type)
+      classes += " " + this.props.type;
+
     return (
       <button className={classes} onClick={() => this.handleClick()}>
         {this.props.children}

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import './Simulator.scss';
 
 import UnitSelector from './unit-selector/UnitSelector.js';
-import SimulationReview from './SimulationReview.js';
+import SimulationReview from './simulation-review/SimulationReview.js';
 import BattlePreview from './BattlePreview.js';
 import Footer from './Footer.js';
 import unitConfig from '../lib/unit-config.js';
@@ -43,6 +43,12 @@ class Simulator extends Component {
     }));
   }
 
+  clearSimulation() {
+    this.setState({
+      simulation: null
+    });
+  }
+
   getClasses() {
     if (this.state.simulation) {
       return "Simulator simulation";
@@ -56,7 +62,8 @@ class Simulator extends Component {
     let mainItem;
     if (this.state.simulation) {
       mainItem = (
-        <SimulationReview simulation={this.state.simulation} />
+        <SimulationReview simulation={this.state.simulation}
+                          onBack={() => this.clearSimulation()} />
       );
     }
     else {

@@ -1,0 +1,21 @@
+$section-padding: 30px;
+
+.ReviewSection {
+    color: #eee;
+
+    .heading {
+        font-size: 2.4rem;
+        text-align: center;
+        margin: 0px;
+        margin-bottom: 1em;
+    }
+
+    &:not(:first-child) {
+        padding-top: $section-padding;
+    }
+
+    &:not(:last-child) {
+        border-bottom: 1px solid #666;
+        padding-bottom: $section-padding;
+    }
+}
