@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import * as d3 from 'd3';
 
-import Dimensions from '../lib/dimensions.js';
-import * as util from '../lib/util.js';
+import Dimensions from '../../lib/dimensions.js';
+import * as util from '../../lib/util.js';
+
+import './FrequencyPlot.scss';
 
 const vizMargin = {
   top: 0,
@@ -13,14 +15,15 @@ const vizMargin = {
 
 const vizPadding = {
   top: 20,
-  right: 20,
-  bottom: 40,
-  left: 58
+  right: 26,
+  bottom: 50,
+  left: 68
 };
 
-function groupSimulationResults(simulation, key) {
+function calcFrequency(simulation, vizKey) {
+  // Group by IPC
   let grouped = simulation.results.reduce((map, result) => {
-    let IPC = result[key];
+    let IPC = result[vizKey];
 
     if (!map.has(IPC))
       map.set(IPC, 1);
@@ -46,26 +49,19 @@ export default class FreqPlot extends Component {
                               props.height,
                               vizMargin,
                               vizPadding);
-    console.log('Constructor');
-    console.log(this.props.simulation);
   }
 
   componentDidMount() {
-    console.log('Mount');
-    let data = groupSimulationResults(this.props.simulation,
-                                      this.props.vizKey);
+    let data = calcFrequency(this.props.simulation, this.props.vizKey);
     this.setUp(data);
   }
 
   componentDidUpdate() {
-    console.log('Update');
-    let data = groupSimulationResults(this.props.simulation, this.props.key);
+    let data = calcFrequency(this.props.simulation, this.props.vizKey);
     this.update(data);
   }
 
   setUp(data) {
-    console.log(data);
-
     let plotWidth = this.dim.plotWidth();
     let plotHeight = this.dim.plotHeight();
 
@@ -85,8 +81,10 @@ export default class FreqPlot extends Component {
                                                    this.dim.margin.top))
                     .attr('class', 'panel');
 
-    let xAxis = d3.axisBottom(this.xScale);
-    let yAxis = d3.axisLeft(this.yScale);
+    let xAxis = d3.axisBottom(this.xScale)
+                  .tickPadding(5);
+    let yAxis = d3.axisLeft(this.yScale)
+                  .tickFormat(d3.format('.0%'));
 
     // Add axes
     this.panel.append("g")
@@ -127,7 +125,7 @@ export default class FreqPlot extends Component {
     this.xTitle =
       this.panel.append("text")
                 .attr("x", this.dim.padding.left + plotWidth / 2)
-                .attr("y", plotHeight + this.dim.padding.top + 40)
+                .attr("y", plotHeight + this.dim.padding.top + 48)
                 .attr("text-anchor", "middle")
                 .attr("class", "axis-title x-axis-title")
                 .text("IPC Loss");
@@ -137,7 +135,8 @@ export default class FreqPlot extends Component {
   }
 
   render() {
-    return <svg width={this.props.width}
+    return <svg className="FrequencyPlot"
+                width={this.props.width}
                 height={this.props.height}
                 ref={this.svgRef} />;
   }

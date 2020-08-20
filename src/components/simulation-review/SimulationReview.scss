@@ -17,15 +17,6 @@
         color: #eee;
         background-color: inherit;
         border: 1px solid #eee;
-
-        span {
-            position: relative;
-
-            &:before {
-                content: "\2190";
-                position: absolute;
-                left: -40px;
-            }
-        }
+        margin-bottom: 100px;
     }
 }

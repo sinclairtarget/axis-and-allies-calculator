@@ -1,0 +1,17 @@
+.FrequencyPlot {
+    display: block;
+    margin: auto;
+
+    rect {
+        fill: #eee;
+    }
+
+    text {
+        fill: #eee;
+        font-size: 1.2rem;
+    }
+
+    text.axis-title {
+        font-size: 1.6rem;
+    }
+}

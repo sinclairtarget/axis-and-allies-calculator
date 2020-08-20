@@ -1,5 +1,6 @@
 import { Unit, InfantryUnit } from './unit.js';
-import SimulationResults from './simulation-results.js';
+import SimulationResults,
+       { ATTACKER_KEY, DEFENDER_KEY } from './simulation-results.js';
 
 function buildUnits(unitCounts, unitConfig) {
   let numArty = unitCounts.has('artillery') ? unitCounts.get('artillery') : 0;
@@ -91,8 +92,8 @@ export default function simulate(orderOfBattle, n)
 
     // Append saved difference to results
     results.push({
-      attackIPC: atkIPCEnd - atkIPCStart,
-      defenseIPC: defIPCEnd - defIPCStart,
+      [ATTACKER_KEY]: atkIPCEnd - atkIPCStart,
+      [DEFENDER_KEY]: defIPCEnd - defIPCStart,
       win: atkThisSim.length > 0
     });
   }
