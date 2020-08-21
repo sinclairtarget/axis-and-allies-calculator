@@ -1,11 +1,10 @@
 @import '../partials/constants';
 
 .BattlePreview {
-    overflow-y: auto;
-
     .InsetHeading {
-        font-size: 2.4rem;
-        margin: 0.7em;
+        font-size: 2.6rem;
+        margin: 20px;
+        margin-bottom: 6px;
         color: rgba(0, 0, 0, 0.7);
     }
 

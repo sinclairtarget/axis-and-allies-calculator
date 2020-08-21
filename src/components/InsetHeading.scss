@@ -1,6 +1,9 @@
 .InsetHeading {
     text-align: center;
     position: relative;
+    font-family: 'Bebas Neue', sans-serif;
+    font-weight: bold;
+    letter-spacing: .05em;
 
     &:before, &:after {
         content: attr(text);
