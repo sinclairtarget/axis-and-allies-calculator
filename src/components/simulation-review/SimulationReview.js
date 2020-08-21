@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as d3 from 'd3';
 
 import InsetHeading from '../InsetHeading.js';
 import ReviewSection from './ReviewSection.js';
@@ -12,6 +13,8 @@ import './SimulationReview.scss';
 const VIZ_WIDTH = 600;
 const VIZ_HEIGHT = 400;
 const VIZ_MAX_TICKS = 10; // Max x-axis ticks
+
+let format = d3.format(',.0d');
 
 class SimulationReview extends Component {
   handleClick() {
@@ -41,6 +44,9 @@ class SimulationReview extends Component {
                            height={VIZ_HEIGHT}
                            maxTicks={VIZ_MAX_TICKS} />
           </ReviewSection>
+          <p className="summary">
+            These results were calculated using the outcomes of <strong>{format(this.props.simulation.n)}</strong> simulated battles.
+          </p>
           <FatButton onClick={() => this.handleClick()}
                      enabled={true}>
             <span>Back</span>
