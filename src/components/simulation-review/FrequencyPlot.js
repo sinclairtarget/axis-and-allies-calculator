@@ -15,7 +15,7 @@ const vizMargin = {
 
 const vizPadding = {
   top: 20,
-  right: 26,
+  right: 20,
   bottom: 50,
   left: 68
 };
@@ -39,6 +39,13 @@ function calcFrequency(simulation, vizKey) {
   }
 
   return Array.from(grouped.entries());
+}
+
+function calcXAxisTicks(xDomain, maxCount) {
+  let count = Math.min(xDomain.length, maxCount);
+  console.log('count ', count);
+  let indices = d3.ticks(0, xDomain.length - 1, count);
+  return indices.reduce((arr, index) => arr.concat([xDomain[index]]), []);
 }
 
 export default class FreqPlot extends Component {
@@ -81,12 +88,14 @@ export default class FreqPlot extends Component {
                                                    this.dim.margin.top))
                     .attr('class', 'panel');
 
+    // Add axes
+    let xTicks = calcXAxisTicks(xDomain, this.props.maxTicks);
     let xAxis = d3.axisBottom(this.xScale)
-                  .tickPadding(5);
+                  .tickPadding(5)
+                  .tickValues(xTicks);
     let yAxis = d3.axisLeft(this.yScale)
                   .tickFormat(d3.format('.0%'));
 
-    // Add axes
     this.panel.append("g")
               .attr("transform", util.transl(this.dim.padding.left,
                                              this.dim.padding.top + plotHeight))
@@ -113,6 +122,7 @@ export default class FreqPlot extends Component {
              .attr('width', this.xScale.bandwidth())
              .attr('height', ([ipc, p]) => plotHeight - this.yScale(p));
 
+    // Add axis labels
     this.yTitle =
       this.panel.append("text")
                 .attr("x", 0)

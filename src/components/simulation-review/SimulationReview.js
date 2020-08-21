@@ -11,6 +11,7 @@ import './SimulationReview.scss';
 
 const VIZ_WIDTH = 600;
 const VIZ_HEIGHT = 400;
+const VIZ_MAX_TICKS = 10; // Max x-axis ticks
 
 class SimulationReview extends Component {
   handleClick() {
@@ -30,13 +31,15 @@ class SimulationReview extends Component {
             <FrequencyPlot simulation={props.simulation}
                            vizKey={ATTACKER_KEY}
                            width={VIZ_WIDTH}
-                           height={VIZ_HEIGHT}/>
+                           height={VIZ_HEIGHT}
+                           maxTicks={VIZ_MAX_TICKS} />
           </ReviewSection>
           <ReviewSection title="Defender Losses">
             <FrequencyPlot simulation={props.simulation}
                            vizKey={DEFENDER_KEY}
                            width={VIZ_WIDTH}
-                           height={VIZ_HEIGHT}/>
+                           height={VIZ_HEIGHT}
+                           maxTicks={VIZ_MAX_TICKS} />
           </ReviewSection>
           <FatButton onClick={() => this.handleClick()}
                      enabled={true}>
