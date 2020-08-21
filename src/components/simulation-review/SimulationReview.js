@@ -20,7 +20,7 @@ class SimulationReview extends Component {
   render() {
     let props = this.props;
     return (
-      <div className="SimulationReview">
+      <div className="SimulationReview" ref={this.scrollRef}>
         <InsetHeading text="Simulation Results" />
         <div className="sections">
           <ReviewSection title="Conquest Chance">

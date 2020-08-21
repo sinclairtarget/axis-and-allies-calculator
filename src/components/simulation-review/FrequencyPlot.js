@@ -136,8 +136,8 @@ export default class FreqPlot extends Component {
 
   render() {
     return <svg className="FrequencyPlot"
-                width={this.props.width}
-                height={this.props.height}
+                width="100%"
+                height="100%"
                 ref={this.svgRef} />;
   }
 }

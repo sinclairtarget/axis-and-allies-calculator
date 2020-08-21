@@ -3,11 +3,14 @@
 .Simulator {
     display: flex;
     flex-direction: column;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    overflow-y: hidden;
 
     main {
         display: flex;
         flex-direction: column;
+        max-height: 100%;
+        overflow-y: auto;
 
         .BattlePreview, .SimulationResults {
             flex: 1 1 auto;

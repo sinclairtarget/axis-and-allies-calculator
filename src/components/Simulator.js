@@ -41,12 +41,20 @@ class Simulator extends Component {
     this.setState((state, props) => ({
       simulation: simulate(state.units, N)
     }));
+
+    this.scrollTop();
   }
 
   clearSimulation() {
     this.setState({
       simulation: null
     });
+
+    this.scrollTop();
+  }
+
+  scrollTop() {
+    window.scrollTo(0, 0); // For mobile devices
   }
 
   getClasses() {
@@ -92,7 +100,7 @@ class Simulator extends Component {
             this.handleSelectorUpdate(DEFENDER_SIDE, unitKey, delta)
           )}
         />
-        <main>
+        <main ref={this.scrollRef}>
           {mainItem}
           <Footer />
         </main>
