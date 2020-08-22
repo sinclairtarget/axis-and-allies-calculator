@@ -12,6 +12,10 @@ class UnitSelectorItem extends Component {
   }
 
   render() {
+    let classes = this.props.enabled ?
+                  'UnitSelectorItem' :
+                  'UnitSelectorItem disabled';
+
     let stats = [{
       name: 'Atk',
       val: this.props.unit.attack
@@ -38,8 +42,8 @@ class UnitSelectorItem extends Component {
     });
 
     return (
-      <li className="UnitSelectorItem">
-        <UnitIcon unit={this.props.unit} />
+      <li className={classes}>
+        <UnitIcon unit={this.props.unit} enabled={this.props.enabled} />
         <div className="unit-info">
           <h4 className="unit-title">{this.props.unit.name}</h4>
           <p className="unit-description">
@@ -48,6 +52,7 @@ class UnitSelectorItem extends Component {
         </div>
         <h2 className="unit-cost">{this.props.unit.cost}</h2>
         <UnitCounter count={this.props.count}
+                     enabled={this.props.enabled}
                      onUpdate={(delta) => this.handleUpdate(delta)} />
       </li>
     );

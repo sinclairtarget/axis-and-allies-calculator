@@ -11,6 +11,11 @@
         margin-bottom: 18px;
     }
 
+    &.disabled {
+        border-color: #aaa;
+        color: #aaa;
+    }
+
     .UnitIcon {
         flex: 0 0 auto;
         margin-right: 12px;

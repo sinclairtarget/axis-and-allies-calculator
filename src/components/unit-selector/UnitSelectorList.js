@@ -17,6 +17,7 @@ class UnitSelectorList extends Component {
           key={unitKey}
           unit={unit}
           count={this.props.units.unitCount(this.props.side, unitKey)}
+          enabled={unit.valid(this.props.units, this.props.side)}
           onUpdate={(delta) => this.handleUpdate(unitKey, delta)} />
       );
     });

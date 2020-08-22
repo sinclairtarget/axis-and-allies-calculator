@@ -9,15 +9,21 @@ class UnitCounter extends Component {
   }
 
   render() {
+    let classes = this.props.enabled ?
+                  'UnitCounter' :
+                  'UnitCounter disabled';
+
     return (
-      <div className="UnitCounter">
-        <Button onClick={() => this.handleClick(-1)} enabled={true}>
+      <div className={classes}>
+        <Button onClick={() => this.handleClick(-1)}
+                enabled={this.props.enabled}>
           <p>-</p>
         </Button>
         <div className="count-display">
           <h2 className="count">{this.props.count}</h2>
         </div>
-        <Button onClick={() => this.handleClick(1)} enabled={true}>
+        <Button onClick={() => this.handleClick(1)}
+                enabled={this.props.enabled}>
           <p>+</p>
         </Button>
       </div>

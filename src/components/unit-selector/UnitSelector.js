@@ -22,7 +22,6 @@ const TABS = [
   }
 ];
 
-
 class UnitSelector extends Component {
   constructor(props) {
     super(props);

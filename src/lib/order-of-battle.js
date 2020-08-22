@@ -65,4 +65,20 @@ export class OrderOfBattle {
                  sum + accessor(this.unitConfig[unitKey]) * count
                ), 0);
   }
+
+  hasAny(side, domain) {
+    return this.unitCounts(side)
+               .some(([unitKey, _]) => (
+                 this.unitConfig[unitKey].domain == domain
+               ));
+  }
+
+  hasAnyOf(side, ...unitKeys) {
+    for (let unitKey of unitKeys) {
+      if (this.units[side].get(unitKey))
+        return true;
+    }
+
+    return false;
+  }
 }

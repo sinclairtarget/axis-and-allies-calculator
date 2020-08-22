@@ -23,6 +23,10 @@
         transform: translate(-50%, -50%);
     }
 
+    &.disabled .count {
+        color: #aaa;
+    }
+
     .Button {
         display: inline-block;
         font-size: 2rem;
@@ -48,6 +52,10 @@
             top: 44%;
             left: 50%;
             transform: translate(-50%, -50%);
+        }
+
+        &.disabled {
+            border-color: #aaa;
         }
     }
 }
