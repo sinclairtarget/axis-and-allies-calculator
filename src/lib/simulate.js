@@ -128,5 +128,5 @@ export default function simulate(oob, n)
 
   console.timeEnd('simulate');
 
-  return new SimulationResults(n, results);
+  return new SimulationResults(n, results, oob);
 }

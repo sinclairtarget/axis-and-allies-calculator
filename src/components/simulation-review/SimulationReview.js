@@ -27,6 +27,9 @@ class SimulationReview extends Component {
       <div className="SimulationReview" ref={this.scrollRef}>
         <InsetHeading text="Simulation Results" />
         <div className="sections">
+          <ReviewSection title="Battle Type">
+            <p className="battle-type">{props.simulation.battleTypeLabel}</p>
+          </ReviewSection>
           <ReviewSection title="Conquest Chance">
             <ConquestChance simulation={props.simulation} />
           </ReviewSection>
