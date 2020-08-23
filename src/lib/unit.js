@@ -23,7 +23,7 @@ export class Unit {
 };
 
 export class InfantryUnit extends Unit {
-  constructor(attack, defense, cost, hasArty) {
-    super(hasArty ? attack + 1 : attack, defense, cost);
+  constructor(attack, defense, cost, domain, hasArty) {
+    super(hasArty ? attack + 1 : attack, defense, cost, domain);
   }
 };

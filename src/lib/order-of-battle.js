@@ -42,22 +42,22 @@ export class OrderOfBattle {
     return this.units[DEFENDER_SIDE];
   }
 
-//  // The type of territory the battle takes place in, either 'land' or 'sea'
-//  get battleDomain() {
-//    // Can't determine this for sure without a valid battle
-//    if (!this.valid)
-//      throw 'Called battleDomain() on an invalid Order of Battle.';
-//
-//    if (this.hasAny(DEFENDER_SIDE, 'land')
-//        || this.hasAny(ATTACKER_SIDE, 'land'))
-//      return 'land';
-//
-//    if (this.hasAny(DEFENDER_SIDE, 'sea')
-//        || this.hasAny(ATTACKER_SIDE, 'sea'))
-//      return 'sea';
-//
-//    return 'air';
-//  }
+  // The type of territory the battle takes place in, either 'land' or 'sea'
+  get battleDomain() {
+    // Can't determine this for sure without a valid battle
+    if (!this.valid)
+      throw 'Called battleDomain() on an invalid Order of Battle.';
+
+    if (this.hasAny(DEFENDER_SIDE, 'land')
+        || this.hasAny(ATTACKER_SIDE, 'land'))
+      return 'land';
+
+    if (this.hasAny(DEFENDER_SIDE, 'sea')
+        || this.hasAny(ATTACKER_SIDE, 'sea'))
+      return 'sea';
+
+    return 'air';
+  }
 
   get isAmphibiousAssault() {
     return this.hasAny(ATTACKER_SIDE, 'land') &&

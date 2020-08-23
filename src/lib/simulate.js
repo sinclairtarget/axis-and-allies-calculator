@@ -15,6 +15,7 @@ function buildUnits(unitCounts, unitConfig) {
           stats['attack'],
           stats['defense'],
           stats['cost'],
+          stats['domain'],
           numArty-- > 0              // Pair inf with available arty
         );
       }
@@ -22,7 +23,8 @@ function buildUnits(unitCounts, unitConfig) {
         return new Unit(
           stats['attack'],
           stats['defense'],
-          stats['cost']
+          stats['cost'],
+          stats['domain']
         );
       }
     });
@@ -32,14 +34,68 @@ function buildUnits(unitCounts, unitConfig) {
   return units.reduce((a, b) => a.concat(b), []);
 }
 
-export default function simulate(orderOfBattle, n)
+// Conquest successful if there is an attacking unit that can occupy the
+// territory.
+function wasConquest(attackingUnits, battleDomain) {
+  if (battleDomain == 'air')
+    return false;                        // Air units can't conquer territory
+  else if (battleDomain == 'land')
+    return attackingUnits.some(u => u.domain == 'land');
+  else
+    return attackingUnits.some(u => u.domain == 'sea');
+}
+
+function simulateOneBattle(attackingUnits,
+                           defendingUnits,
+                           atkIPCStart,
+                           defIPCStart,
+                           battleDomain)
+{
+  // While there are still units on both sides:
+  while (attackingUnits.length > 0 && defendingUnits.length > 0) {
+    // Calculate hits for attackers
+    let atkHits = attackingUnits.reduce((sum, unit) => {
+      return sum + (unit.rollAttack() ? 1 : 0);
+    }, 0);
+
+    // Calculate hits for defenders
+    let defHits = defendingUnits.reduce((sum, unit) => {
+      return sum + (unit.rollDefense() ? 1 : 0);
+    }, 0);
+
+    // Assign hits
+    for (let j = 0; j < defHits && j < attackingUnits.length; j++)
+      attackingUnits[j].takeHit();
+
+    for (let j = 0; j < atkHits && j < defendingUnits.length; j++)
+      defendingUnits[j].takeHit();
+
+    // Remove dead units
+    attackingUnits = attackingUnits.filter(unit => unit.hp > 0);
+    defendingUnits = defendingUnits.filter(unit => unit.hp > 0);
+  }
+
+  // Count up IPC worth
+  let atkIPCEnd = attackingUnits.reduce((sum, unit) => sum + unit.cost, 0);
+  let defIPCEnd = defendingUnits.reduce((sum, unit) => sum + unit.cost, 0);
+
+  return {
+    [ATTACKER_KEY]: atkIPCEnd - atkIPCStart,
+    [DEFENDER_KEY]: defIPCEnd - defIPCStart,
+    conquest: wasConquest(attackingUnits, battleDomain)
+  };
+}
+
+export default function simulate(oob, n)
 {
   console.time('simulate');
 
+  let battleDomain = oob.battleDomain;
+
   // Go through and validate unit lists
   // Transform into objects
-  let atk = buildUnits(orderOfBattle.attackingUnits, orderOfBattle.unitConfig);
-  let def = buildUnits(orderOfBattle.defendingUnits, orderOfBattle.unitConfig);
+  let atk = buildUnits(oob.attackingUnits, oob.unitConfig);
+  let def = buildUnits(oob.defendingUnits, oob.unitConfig);
 
   // Sort by cost, so lower cost units get hit first
   atk.sort((a, b) => a.cost > b.cost ? 1 : -1);
@@ -55,47 +111,19 @@ export default function simulate(orderOfBattle, n)
   for (let i = 0; i < n; i++) {
     // Create copies of original arrays
     let atkThisSim = atk.map(unit => {
-      return new Unit(unit.attack, unit.defense, unit.cost);
+      return new Unit(unit.attack, unit.defense, unit.cost, unit.domain);
     });
 
     let defThisSim = def.map(unit => {
-      return new Unit(unit.attack, unit.defense, unit.cost);
+      return new Unit(unit.attack, unit.defense, unit.cost, unit.domain);
     });
 
-    // While there are still units on both sides:
-    while (atkThisSim.length > 0 && defThisSim.length > 0) {
-      // Calculate hits for attackers
-      let atkHits = atkThisSim.reduce((sum, unit) => {
-        return sum + (unit.rollAttack() ? 1 : 0);
-      }, 0);
-
-      // Calculate hits for defenders
-      let defHits = defThisSim.reduce((sum, unit) => {
-        return sum + (unit.rollDefense() ? 1 : 0);
-      }, 0);
-
-      // Assign hits
-      for (let j = 0; j < defHits && j < atkThisSim.length; j++)
-        atkThisSim[j].takeHit();
-
-      for (let j = 0; j < atkHits && j < defThisSim.length; j++)
-        defThisSim[j].takeHit();
-
-      // Remove dead units
-      atkThisSim = atkThisSim.filter(unit => unit.hp > 0);
-      defThisSim = defThisSim.filter(unit => unit.hp > 0);
-    }
-
-    // Count up IPC worth
-    let atkIPCEnd = atkThisSim.reduce((sum, unit) => sum + unit.cost, 0);
-    let defIPCEnd = defThisSim.reduce((sum, unit) => sum + unit.cost, 0);
-
-    // Append saved difference to results
-    results.push({
-      [ATTACKER_KEY]: atkIPCEnd - atkIPCStart,
-      [DEFENDER_KEY]: defIPCEnd - defIPCStart,
-      win: atkThisSim.length > 0
-    });
+    // Append simulated battle result
+    results.push(simulateOneBattle(atkThisSim,
+                                   defThisSim,
+                                   atkIPCStart,
+                                   defIPCStart,
+                                   battleDomain));
   }
 
   console.timeEnd('simulate');

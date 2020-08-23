@@ -14,7 +14,7 @@ function ConquestChance(props) {
       <p className="note">
         This is the probability that the attacker occupies the territory. In
     other words, this is the probability that all defending units are destroyed
-    while the attacker has at least one unit remaining capable of occupying
+    AND the attacker has at least one unit remaining capable of occupying
     the territory.
       </p>
     </div>
