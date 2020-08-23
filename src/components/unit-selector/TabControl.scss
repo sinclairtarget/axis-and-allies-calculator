@@ -15,6 +15,10 @@
         border-radius: 12px 12px 0px 0px;
         cursor: pointer;
     }
+
+    li:hover {
+        font-weight: bold;
+    }
 }
 
 .TabControl.attack li.selected {

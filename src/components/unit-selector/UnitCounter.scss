@@ -40,9 +40,14 @@
         color: inherit;
         background-color: inherit;
 
-        &:active {
-            color: #222;
+        &:hover:not(.disabled) {
+            color: #333;
             background-color: #eee;
+        }
+
+        &:active:not(.disabled) {
+            color: #333;
+            background-color: darken(#eee, 10%);
         }
 
         p {

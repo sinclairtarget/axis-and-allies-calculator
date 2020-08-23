@@ -14,5 +14,13 @@
         border-bottom-color: #005200;
         border-right-color: #005200;
         margin-bottom: 100px;
+
+        &:hover:not(.disabled) {
+            background-color: #489f37;
+        }
+
+        &:active:not(.disabled) {
+            background-color: darken(#489f37, 10%);
+        }
     }
 }
