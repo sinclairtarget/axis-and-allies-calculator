@@ -48,7 +48,7 @@ class SimulationReview extends Component {
                            maxTicks={VIZ_MAX_TICKS} />
           </ReviewSection>
           <p className="summary">
-            These results were calculated using the outcomes of <strong>{format(this.props.simulation.n)}</strong> simulated battles.
+            These results were calculated using <strong>{format(this.props.simulation.n)}</strong> simulated battles.
           </p>
           <FatButton onClick={() => this.handleClick()}
                      enabled={true}>
