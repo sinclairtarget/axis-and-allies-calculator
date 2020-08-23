@@ -25,7 +25,7 @@ class BattlePreview extends Component {
                      units={props.units}
                      onClear={(role) => this.handleClear(role)} />
         <FatButton onClick={() => this.handleClick()}
-                enabled={props.units.any}>
+                   enabled={props.units.valid}>
           Simulate
         </FatButton>
       </div>

@@ -10,6 +10,9 @@ function UnitIcon(props) {
   if (('enabled' in props) && !props.enabled)
     classes += ' ' + 'disabled';
 
+  if (('isValid' in props) && !props.isValid)
+    classes += ' ' + 'invalid';
+
   return (
     <div className={classes}>
       <h2 className="symbol">{props.unit.symbol}</h2>

@@ -79,7 +79,7 @@ export default {
     'cost': 7,
     'move': 2,
     'domain': 'sea',
-    'valid': valid.amphibious
+    'valid': valid.transport
   },
   'destroyer': {
     'name': 'Destroyer',
@@ -99,7 +99,7 @@ export default {
     'cost': 12,
     'move': 2,
     'domain': 'sea',
-    'valid': valid.amphibious
+    'valid': valid.bombard
   },
   'carrier': {
     'name': 'Aircraft Carrier',
@@ -119,6 +119,6 @@ export default {
     'cost': 20,
     'move': 2,
     'domain': 'sea',
-    'valid': valid.amphibious
+    'valid': valid.bombard
   },
 };

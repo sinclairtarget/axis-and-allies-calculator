@@ -1,4 +1,5 @@
 import * as util from './util.js';
+import * as valid from './valid.js';
 
 export const ATTACKER_SIDE = 'attack';
 export const DEFENDER_SIDE = 'defense';
@@ -13,8 +14,24 @@ export class OrderOfBattle {
     this.units[DEFENDER_SIDE] = new Map();
   }
 
-  get any() {
-    return this.totalUnits(ATTACKER_SIDE) + this.totalUnits(DEFENDER_SIDE) > 0;
+  get valid() {
+    if (this.totalUnits(ATTACKER_SIDE) <= 0
+        || this.totalUnits(DEFENDER_SIDE) <= 0)
+      return false;
+
+    let anyInvalidAttackers =
+      this.unitCounts(ATTACKER_SIDE)
+          .some(([unitKey, _]) => (
+            !this.unitConfig[unitKey].valid(this, ATTACKER_SIDE)
+          ));
+
+    let anyInvalidDefenders =
+      this.unitCounts(DEFENDER_SIDE)
+          .some(([unitKey, _]) => (
+            !this.unitConfig[unitKey].valid(this, DEFENDER_SIDE)
+          ));
+
+    return !(anyInvalidAttackers || anyInvalidDefenders);
   }
 
   get attackingUnits() {
@@ -23,6 +40,28 @@ export class OrderOfBattle {
 
   get defendingUnits() {
     return this.units[DEFENDER_SIDE];
+  }
+
+//  // The type of territory the battle takes place in, either 'land' or 'sea'
+//  get battleDomain() {
+//    // Can't determine this for sure without a valid battle
+//    if (!this.valid)
+//      throw 'Called battleDomain() on an invalid Order of Battle.';
+//
+//    if (this.hasAny(DEFENDER_SIDE, 'land')
+//        || this.hasAny(ATTACKER_SIDE, 'land'))
+//      return 'land';
+//
+//    if (this.hasAny(DEFENDER_SIDE, 'sea')
+//        || this.hasAny(ATTACKER_SIDE, 'sea'))
+//      return 'sea';
+//
+//    return 'air';
+//  }
+
+  get isAmphibiousAssault() {
+    return this.hasAny(ATTACKER_SIDE, 'land') &&
+           this.hasAnyOf(ATTACKER_SIDE, 'transport');
   }
 
   unitCount(side, unitKey) {

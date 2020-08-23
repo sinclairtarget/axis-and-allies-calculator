@@ -12,12 +12,14 @@ class UnitSelectorList extends Component {
   render() {
     let unitConfig = this.props.units.configForDomain(this.props.domain);
     let items = Object.entries(unitConfig).map(([unitKey, unit]) => {
+      let count = this.props.units.unitCount(this.props.side, unitKey);
+      let enabled = count > 0 || unit.valid(this.props.units, this.props.side);
       return (
         <UnitSelectorItem
           key={unitKey}
           unit={unit}
-          count={this.props.units.unitCount(this.props.side, unitKey)}
-          enabled={unit.valid(this.props.units, this.props.side)}
+          count={count}
+          enabled={enabled}
           onUpdate={(delta) => this.handleUpdate(unitKey, delta)} />
       );
     });

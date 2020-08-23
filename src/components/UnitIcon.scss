@@ -8,6 +8,7 @@
     text-align: center;
     border-radius: 50%;
     position: relative;
+    box-sizing: border-box;
 
     .symbol {
         margin: 0;
@@ -29,5 +30,15 @@
 
     &.defense {
         background-color: $defender-blue;
+    }
+
+    &.invalid:after {
+        content: "!";
+        position: absolute;
+        color: red;
+        font-weight: bold;
+        right: 0;
+        top: -1.5rem;
+        font-size: 3rem;
     }
 }

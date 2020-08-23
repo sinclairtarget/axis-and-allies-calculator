@@ -14,11 +14,14 @@ class UnitSummaryPanel extends Component {
     let props = this.props;
 
     let items = props.units.unitCounts(props.side).map(([unitKey, count]) => {
+      let unit = props.units.unitConfig[unitKey];
+      let isValid = unit.valid(props.units, props.side);
       return (
         <UnitSummaryItem key={unitKey}
                          side={props.side}
-                         unit={props.units.unitConfig[unitKey]}
-                         count={count} />
+                         unit={unit}
+                         count={count}
+                         isValid={isValid}/>
       );
     });
 

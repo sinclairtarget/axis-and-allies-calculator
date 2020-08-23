@@ -8,6 +8,6 @@ export default class SimulationResults {
   }
 
   get conquestChance() {
-    return this.results.filter(r => r.win).length / this.n;
+    return this.results.filter(r => r.conquest).length / this.n;
   }
 }

@@ -1,8 +1,9 @@
 export class Unit {
-  constructor(attack, defense, cost) {
+  constructor(attack, defense, cost, domain) {
     this.attack = attack;
     this.defense = defense;
     this.cost = cost;
+    this.domain = domain;
     this.hp = 1;
   }
 
