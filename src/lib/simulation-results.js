@@ -17,7 +17,6 @@ export default class SimulationResults {
       return 'Amphibious Assault';
 
     let battleDomain = this.oob.battleDomain;
-    console.log('domain', battleDomain);
     if (battleDomain == 'land')
       return 'Land Battle';
     else

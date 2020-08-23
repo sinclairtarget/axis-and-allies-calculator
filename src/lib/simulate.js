@@ -1,33 +1,20 @@
-import { Unit, InfantryUnit } from './unit.js';
 import SimulationResults,
        { ATTACKER_KEY, DEFENDER_KEY } from './simulation-results.js';
 
 function buildUnits(unitCounts, unitConfig) {
   let numArty = unitCounts.has('artillery') ? unitCounts.get('artillery') : 0;
+  let buildState = {
+    numArtyLeft: numArty
+  };
+
   let units = Array.from(unitCounts.entries()).map(([unitType, count]) => {
     if (!(unitType in unitConfig))
       throw `Unknown unit type: ${unitType}`;
 
     let stats = unitConfig[unitType];
-    return Array(count).fill(null).map(() => {
-      if (unitType == 'infantry') {
-        return new InfantryUnit(
-          stats['attack'],
-          stats['defense'],
-          stats['cost'],
-          stats['domain'],
-          numArty-- > 0              // Pair inf with available arty
-        );
-      }
-      else {
-        return new Unit(
-          stats['attack'],
-          stats['defense'],
-          stats['cost'],
-          stats['domain']
-        );
-      }
-    });
+    return Array(count).fill(null).map(() => (
+      stats.factory(buildState)
+    ));
   });
 
   // Flatten
@@ -51,6 +38,32 @@ function simulateOneBattle(attackingUnits,
                            defIPCStart,
                            battleDomain)
 {
+  // Handle AA
+  let numAirUnits = attackingUnits.reduce((sum, next) => (
+    sum + next.canBeHitByAA
+  ), 0);
+
+  let aaHits = 0;
+  for (let unit of defendingUnits) {
+    let [hits, airUnitsConsumed] = unit.rollAA(numAirUnits);
+    aaHits += hits;
+    numAirUnits -= airUnitsConsumed;
+  }
+
+  let airUnitsHit = 0;
+  for (let unit of attackingUnits) {
+    if (unit.canBeHitByAA && airUnitsHit < aaHits)
+    {
+      unit.takeHit();
+      airUnitsHit++;
+    }
+  }
+  attackingUnits = attackingUnits.filter(unit => unit.hp > 0);
+
+  // Handle units removed last (transports / AA)
+  let removeLast = defendingUnits.filter(u => u.removedLast);
+  defendingUnits = defendingUnits.filter(u => !u.removedLast);
+
   // While there are still units on both sides:
   while (attackingUnits.length > 0 && defendingUnits.length > 0) {
     // Calculate hits for attackers
@@ -75,6 +88,10 @@ function simulateOneBattle(attackingUnits,
     defendingUnits = defendingUnits.filter(unit => unit.hp > 0);
   }
 
+  // Add back removed last if any defenders left
+  if (defendingUnits.length > 0)
+    defendingUnits = defendingUnits.concat(removeLast);
+
   // Count up IPC worth
   let atkIPCEnd = attackingUnits.reduce((sum, unit) => sum + unit.cost, 0);
   let defIPCEnd = defendingUnits.reduce((sum, unit) => sum + unit.cost, 0);
@@ -82,7 +99,8 @@ function simulateOneBattle(attackingUnits,
   return {
     [ATTACKER_KEY]: atkIPCEnd - atkIPCStart,
     [DEFENDER_KEY]: defIPCEnd - defIPCStart,
-    conquest: wasConquest(attackingUnits, battleDomain)
+    conquest: wasConquest(attackingUnits, battleDomain),
+    aaHits: aaHits
   };
 }
 
@@ -110,13 +128,8 @@ export default function simulate(oob, n)
   // Do n times:
   for (let i = 0; i < n; i++) {
     // Create copies of original arrays
-    let atkThisSim = atk.map(unit => {
-      return new Unit(unit.attack, unit.defense, unit.cost, unit.domain);
-    });
-
-    let defThisSim = def.map(unit => {
-      return new Unit(unit.attack, unit.defense, unit.cost, unit.domain);
-    });
+    let atkThisSim = atk.map(unit => unit.clone());
+    let defThisSim = def.map(unit => unit.clone());
 
     // Append simulated battle result
     results.push(simulateOneBattle(atkThisSim,
@@ -127,6 +140,8 @@ export default function simulate(oob, n)
   }
 
   console.timeEnd('simulate');
+
+  console.log('results', results);
 
   return new SimulationResults(n, results, oob);
 }

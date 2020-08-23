@@ -1,4 +1,24 @@
 import * as valid from './valid.js';
+import {
+  Unit,
+  InfantryUnit,
+  AAUnit,
+  AirUnit
+} from './unit.js';
+
+let basicUnit = function(_) {
+  return new Unit(this.attack,
+                  this.defense,
+                  this.cost,
+                  this.domain);
+}
+
+let airUnit = function(_) {
+  return new AirUnit(this.attack,
+                     this.defense,
+                     this.cost,
+                     this.domain);
+}
 
 export default {
   'infantry': {
@@ -9,6 +29,13 @@ export default {
     'cost': 3,
     'move': 1,
     'domain': 'land',
+    'factory': function(buildState) {
+      return new InfantryUnit(this.attack,
+                              this.defense,
+                              this.cost,
+                              this.domain,
+                              buildState.numArtyLeft-- > 0);
+    },
     'valid': valid.landUnit
   },
   'artillery': {
@@ -19,6 +46,7 @@ export default {
     'cost': 4,
     'move': 1,
     'domain': 'land',
+    'factory': basicUnit,
     'valid': valid.landUnit
   },
   'tank': {
@@ -29,6 +57,7 @@ export default {
     'cost': 6,
     'move': 2,
     'domain': 'land',
+    'factory': basicUnit,
     'valid': valid.landUnit
   },
   'aa': {
@@ -39,6 +68,12 @@ export default {
     'cost': 5,
     'move': 1,
     'domain': 'land',
+    'factory': function(_) {
+      return new AAUnit(this.attack,
+                        this.defense,
+                        this.cost,
+                        this.domain);
+    },
     'valid': valid.antiair
   },
   'fighter': {
@@ -49,6 +84,7 @@ export default {
     'cost': 10,
     'move': 4,
     'domain': 'air',
+    'factory': airUnit,
     'valid': valid.always
   },
   'bomber': {
@@ -59,6 +95,7 @@ export default {
     'cost': 12,
     'move': 6,
     'domain': 'air',
+    'factory': airUnit,
     'valid': valid.always
   },
   'submarine': {
@@ -69,6 +106,7 @@ export default {
     'cost': 6,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.seaUnit
   },
   'transport': {
@@ -79,6 +117,7 @@ export default {
     'cost': 7,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.transport
   },
   'destroyer': {
@@ -89,6 +128,7 @@ export default {
     'cost': 8,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.seaUnit
   },
   'cruiser': {
@@ -99,6 +139,7 @@ export default {
     'cost': 12,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.bombard
   },
   'carrier': {
@@ -109,6 +150,7 @@ export default {
     'cost': 14,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.seaUnit
   },
   'battleship': {
@@ -119,6 +161,7 @@ export default {
     'cost': 20,
     'move': 2,
     'domain': 'sea',
+    'factory': basicUnit,
     'valid': valid.bombard
   },
 };
