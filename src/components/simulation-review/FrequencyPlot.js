@@ -43,7 +43,6 @@ function calcFrequency(simulation, vizKey) {
 
 function calcXAxisTicks(xDomain, maxCount) {
   let count = Math.min(xDomain.length, maxCount);
-  console.log('count ', count);
   let indices = d3.ticks(0, xDomain.length - 1, count);
   return indices.reduce((arr, index) => arr.concat([xDomain[index]]), []);
 }
