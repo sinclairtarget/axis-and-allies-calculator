@@ -27,6 +27,10 @@ export class Unit {
     return roll() <= this.defense;
   }
 
+  rollBombard() {
+    return false;
+  }
+
   rollAA(maxRolls) {
     return [0, 0];
   }
@@ -67,5 +71,11 @@ export class AAUnit extends Unit {
     }
 
     return [hits, i];
+  }
+};
+
+export class BombardUnit extends Unit {
+  rollBombard() {
+    return this.rollAttack();
   }
 };

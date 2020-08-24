@@ -1,3 +1,4 @@
+import * as util from './util.js';
 import SimulationResults,
        { ATTACKER_KEY, DEFENDER_KEY } from './simulation-results.js';
 
@@ -32,17 +33,39 @@ function wasConquest(attackingUnits, battleDomain) {
     return attackingUnits.some(u => u.domain == 'sea');
 }
 
+function assignHits(units, numHits) {
+  // TODO: BATTLESHIP? What if we don't use all hits? Need to double back for
+  // BB?
+  for (let u of units)
+  {
+    if (numHits > 0)
+    {
+      u.takeHit();
+      numHits--;
+    }
+  }
+}
+
 function simulateOneBattle(attackingUnits,
                            defendingUnits,
-                           atkIPCStart,
-                           defIPCStart,
                            battleDomain)
 {
-  // Handle AA
-  let numAirUnits = attackingUnits.reduce((sum, next) => (
-    sum + next.canBeHitByAA
-  ), 0);
+  let lostAttackingUnits = [];
+  let lostDefendingUnits = [];
 
+  // Handle bombardment -------------------------------------------------------
+  if (battleDomain == 'land')
+  {
+    let numHits = util.sum(attackingUnits, u => u.rollBombard());
+    assignHits(defendingUnits, numHits);
+
+    // Sea units have played their role, time to say goodbye
+    util.remove(attackingUnits, u => u.domain == 'sea');
+  }
+
+  // Handle AA ----------------------------------------------------------------
+  // Roll once for each air unit but no more.
+  let numAirUnits = util.sum(attackingUnits, u => u.canBeHitByAA);
   let aaHits = 0;
   for (let unit of defendingUnits) {
     let [hits, airUnitsConsumed] = unit.rollAA(numAirUnits);
@@ -50,31 +73,21 @@ function simulateOneBattle(attackingUnits,
     numAirUnits -= airUnitsConsumed;
   }
 
-  let airUnitsHit = 0;
-  for (let unit of attackingUnits) {
-    if (unit.canBeHitByAA && airUnitsHit < aaHits)
-    {
-      unit.takeHit();
-      airUnitsHit++;
-    }
-  }
-  attackingUnits = attackingUnits.filter(unit => unit.hp > 0);
+  // Hit air units get no chance to defend
+  assignHits(attackingUnits.filter(u => u.canBeHitByAA), aaHits);
+  lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
 
-  // Handle units removed last (transports / AA)
-  let removeLast = defendingUnits.filter(u => u.removedLast);
-  defendingUnits = defendingUnits.filter(u => !u.removedLast);
+  //
+  // Put units removed last aside (transports / AA)
+  let removeLast = util.remove(defendingUnits, u => u.removedLast);
 
   // While there are still units on both sides:
   while (attackingUnits.length > 0 && defendingUnits.length > 0) {
     // Calculate hits for attackers
-    let atkHits = attackingUnits.reduce((sum, unit) => {
-      return sum + (unit.rollAttack() ? 1 : 0);
-    }, 0);
+    let atkHits = util.sum(attackingUnits, u => u.rollAttack());
 
     // Calculate hits for defenders
-    let defHits = defendingUnits.reduce((sum, unit) => {
-      return sum + (unit.rollDefense() ? 1 : 0);
-    }, 0);
+    let defHits = util.sum(defendingUnits, u => u.rollDefense());
 
     // Assign hits
     for (let j = 0; j < defHits && j < attackingUnits.length; j++)
@@ -84,23 +97,24 @@ function simulateOneBattle(attackingUnits,
       defendingUnits[j].takeHit();
 
     // Remove dead units
-    attackingUnits = attackingUnits.filter(unit => unit.hp > 0);
-    defendingUnits = defendingUnits.filter(unit => unit.hp > 0);
+    lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
+    lostDefendingUnits.push(...util.remove(defendingUnits, u => u.hp <= 0));
   }
 
-  // Add back removed last if any defenders left
+  // Add back removed last if any defenders left (otherwise they're dead)
   if (defendingUnits.length > 0)
-    defendingUnits = defendingUnits.concat(removeLast);
+    defendingUnits.push(...removeLast);
+  else
+    lostDefendingUnits.push(...removeLast);
 
-  // Count up IPC worth
-  let atkIPCEnd = attackingUnits.reduce((sum, unit) => sum + unit.cost, 0);
-  let defIPCEnd = defendingUnits.reduce((sum, unit) => sum + unit.cost, 0);
+  // Count up IPC loss
+  let atkIPCLoss = -util.sum(lostAttackingUnits, u => u.cost);
+  let defIPCLoss = -util.sum(lostDefendingUnits, u => u.cost);
 
   return {
-    [ATTACKER_KEY]: atkIPCEnd - atkIPCStart,
-    [DEFENDER_KEY]: defIPCEnd - defIPCStart,
-    conquest: wasConquest(attackingUnits, battleDomain),
-    aaHits: aaHits
+    [ATTACKER_KEY]: atkIPCLoss,
+    [DEFENDER_KEY]: defIPCLoss,
+    conquest: wasConquest(attackingUnits, battleDomain)
   };
 }
 
@@ -119,10 +133,6 @@ export default function simulate(oob, n)
   atk.sort((a, b) => a.cost > b.cost ? 1 : -1);
   def.sort((a, b) => a.cost > b.cost ? 1 : -1);
 
-  // Save IPC worth
-  let atkIPCStart = atk.reduce((sum, unit) => sum + unit.cost, 0);
-  let defIPCStart = def.reduce((sum, unit) => sum + unit.cost, 0);
-
   let results = [];
 
   // Do n times:
@@ -132,11 +142,7 @@ export default function simulate(oob, n)
     let defThisSim = def.map(unit => unit.clone());
 
     // Append simulated battle result
-    results.push(simulateOneBattle(atkThisSim,
-                                   defThisSim,
-                                   atkIPCStart,
-                                   defIPCStart,
-                                   battleDomain));
+    results.push(simulateOneBattle(atkThisSim, defThisSim, battleDomain));
   }
 
   console.timeEnd('simulate');
