@@ -79,3 +79,10 @@ export class BombardUnit extends Unit {
     return this.rollAttack();
   }
 };
+
+export class BattleshipUnit extends BombardUnit {
+  constructor(attack, defense, cost, domain) {
+    super(attack, defense, cost, domain);
+    this.hp = 2;
+  }
+};

@@ -4,7 +4,8 @@ import {
   InfantryUnit,
   AAUnit,
   AirUnit,
-  BombardUnit
+  BombardUnit,
+  BattleshipUnit
 } from './unit.js';
 
 let basicUnit = function(_) {
@@ -19,13 +20,6 @@ let airUnit = function(_) {
                      this.defense,
                      this.cost,
                      this.domain);
-}
-
-let bombardUnit = function(_) {
-  return new BombardUnit(this.attack,
-                         this.defense,
-                         this.cost,
-                         this.domain);
 }
 
 export default {
@@ -147,7 +141,12 @@ export default {
     'cost': 12,
     'move': 2,
     'domain': 'sea',
-    'factory': bombardUnit,
+    'factory': function(_) {
+      return new BombardUnit(this.attack,
+                             this.defense,
+                             this.cost,
+                             this.domain);
+    },
     'valid': valid.bombard
   },
   'carrier': {
@@ -169,7 +168,12 @@ export default {
     'cost': 20,
     'move': 2,
     'domain': 'sea',
-    'factory': bombardUnit,
+    'factory': function(_) {
+      return new BattleshipUnit(this.attack,
+                                this.defense,
+                                this.cost,
+                                this.domain);
+    },
     'valid': valid.bombard
   },
 };

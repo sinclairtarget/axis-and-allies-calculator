@@ -36,8 +36,9 @@ function wasConquest(attackingUnits, battleDomain) {
 function assignHits(units, numHits) {
   // TODO: BATTLESHIP? What if we don't use all hits? Need to double back for
   // BB?
-  for (let u of units)
+  for (let i = 0; i < units.length; i++)
   {
+    let u = units[i];
     if (numHits > 0)
     {
       u.takeHit();
@@ -67,7 +68,8 @@ function simulateOneBattle(attackingUnits,
   // Roll once for each air unit but no more.
   let numAirUnits = util.sum(attackingUnits, u => u.canBeHitByAA);
   let aaHits = 0;
-  for (let unit of defendingUnits) {
+  for (let i = 0; i < defendingUnits.length; i++) {
+    let unit = defendingUnits[i];
     let [hits, airUnitsConsumed] = unit.rollAA(numAirUnits);
     aaHits += hits;
     numAirUnits -= airUnitsConsumed;
@@ -77,7 +79,7 @@ function simulateOneBattle(attackingUnits,
   assignHits(attackingUnits.filter(u => u.canBeHitByAA), aaHits);
   lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
 
-  //
+  // Battle proper ------------------------------------------------------------
   // Put units removed last aside (transports / AA)
   let removeLast = util.remove(defendingUnits, u => u.removedLast);
 
@@ -90,11 +92,8 @@ function simulateOneBattle(attackingUnits,
     let defHits = util.sum(defendingUnits, u => u.rollDefense());
 
     // Assign hits
-    for (let j = 0; j < defHits && j < attackingUnits.length; j++)
-      attackingUnits[j].takeHit();
-
-    for (let j = 0; j < atkHits && j < defendingUnits.length; j++)
-      defendingUnits[j].takeHit();
+    assignHits(attackingUnits, defHits);
+    assignHits(defendingUnits, atkHits);
 
     // Remove dead units
     lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
