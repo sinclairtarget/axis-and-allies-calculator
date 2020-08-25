@@ -9,6 +9,7 @@ export class Unit {
     this.cost = cost;
     this.domain = domain;
     this.hp = 1;
+    this.rolledThisRound = false;
   }
 
   get canBeHitByAA() {
@@ -19,11 +20,27 @@ export class Unit {
     return false;
   }
 
+  get detectsSubmarines() {
+    return false;
+  }
+
+  get isSubmarine() {
+    return false;
+  }
+
   rollAttack() {
+    if (this.rolledThisRound)
+      return false;
+
+    this.rolledThisRound = true;
     return roll() <= this.attack;
   }
 
   rollDefense() {
+    if (this.rolledThisRound)
+      return false;
+
+    this.rolledThisRound = true;
     return roll() <= this.defense;
   }
 
@@ -36,7 +53,16 @@ export class Unit {
   }
 
   takeHit() {
-    this.hp = Math.max(this.hp - 1, 0);
+    if (this.hp > 0) {
+      this.hp -= 1;
+      return true;
+    }
+
+    return false;
+  }
+
+  reset() {
+    this.rolledThisRound = false;
   }
 
   clone() {
@@ -86,3 +112,15 @@ export class BattleshipUnit extends BombardUnit {
     this.hp = 2;
   }
 };
+
+export class DestroyerUnit extends Unit {
+  get detectsSubmarines() {
+    return true;
+  }
+}
+
+export class SubmarineUnit extends Unit {
+  get isSubmarine() {
+    return true;
+  }
+}

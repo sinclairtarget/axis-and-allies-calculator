@@ -58,7 +58,7 @@ function assignHits(units, numHits, battleDomain = null) {
   if (battleDomain) {
     for (let i = 0; i < units.length; i++) {
       let u = units[i];
-      if (u.domain == battleDomain)
+      if (u.hp > 0 && u.domain == battleDomain)
         designatedSurvivor = u;
     }
   }
@@ -66,15 +66,25 @@ function assignHits(units, numHits, battleDomain = null) {
   // Now hit units in ascending cost order (array is already sorted this way)
   for (let i = 0; i < units.length; i++) {
     let u = units[i];
-    if (numHits > 0 && u != designatedSurvivor) {
-      u.takeHit();
+    if (numHits > 0 && u != designatedSurvivor && u.takeHit())
       numHits--;
-    }
   }
 
   // If we have hits left, designated survivor gets hit
   if (designatedSurvivor && numHits > 0)
     designatedSurvivor.takeHit();
+}
+
+// Returns true/false.
+// Should be good as long as we don't have all subs on one side and all planes
+// on the other.
+function hitsPossible(attackingUnits, defendingUnits) {
+  let allAtkSub = attackingUnits.every(u => u.isSubmarine);
+  let allAtkPlanes = attackingUnits.every(u => u.domain == 'air');
+  let allDefSub = defendingUnits.every(u => u.isSubmarine);
+  let allDefPlanes = defendingUnits.every(u => u.domain == 'air');
+
+  return !((allAtkSub && allDefPlanes) || (allAtkPlanes && allDefSub));
 }
 
 function simulateOneBattle(attackingUnits,
@@ -114,27 +124,78 @@ function simulateOneBattle(attackingUnits,
   let removeLast = util.remove(defendingUnits, u => u.removedLast);
 
   // While there are still units on both sides:
-  while (attackingUnits.length > 0 && defendingUnits.length > 0) {
-    // Calculate hits for attackers
+  while (attackingUnits.length > 0 && defendingUnits.length > 0
+          && hitsPossible(attackingUnits, defendingUnits))
+  {
+
+    // Reset rolledThisRound
+    for (let i = 0; i < attackingUnits.length; i++)
+      attackingUnits[i].reset();
+    for (let i = 0; i < defendingUnits.length; i++)
+      defendingUnits[i].reset();
+
+    // Check for destroyers
+    let isAtkDestroyer = attackingUnits.some(u => u.detectsSubmarines);
+    let isDefDestroyer = defendingUnits.some(u => u.detectsSubmarines);
+
+    // Handle submarines
+    let atkSubHits = util.sum(attackingUnits.filter(u => u.isSubmarine),
+                              u => u.rollAttack());
+    let defSubHits = util.sum(defendingUnits.filter(u => u.isSubmarine),
+                              u => u.rollDefense());
+
+    assignHits(defendingUnits.filter(u => u.domain != 'air'),  // Can't hit air
+               atkSubHits);
+    assignHits(attackingUnits.filter(u => u.domain != 'air'),
+               defSubHits);
+
+    if (!isDefDestroyer) // Attacker gets surprise strike
+      lostDefendingUnits.push(...util.remove(defendingUnits, u => u.hp <= 0));
+
+    if (!isAtkDestroyer) // Defender gets surprise strike
+      lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
+
+    // Handle planes separately if they cannot hit subs
+    if (!isAtkDestroyer) {
+      let airHits = util.sum(attackingUnits.filter(u => u.domain == 'air'),
+                             u => u.rollAttack());
+      assignHits(defendingUnits.filter(u => !u.isSubmarine), airHits);
+    }
+
+    if (!isDefDestroyer) {
+      let airHits = util.sum(defendingUnits.filter(u => u.domain == 'air'),
+                             u => u.rollAttack());
+      assignHits(attackingUnits.filter(u => !u.isSubmarine), airHits,
+                 battleDomain);
+    }
+
+    // Calculate hits for remaining attackers
     let atkHits = util.sum(attackingUnits, u => u.rollAttack());
 
-    // Calculate hits for defenders
+    // Calculate hits for remaining defenders
     let defHits = util.sum(defendingUnits, u => u.rollDefense());
 
     // Assign hits
-    assignHits(attackingUnits, defHits, battleDomain);
     assignHits(defendingUnits, atkHits);
+    assignHits(attackingUnits, defHits, battleDomain);
 
     // Remove dead units
-    lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
     lostDefendingUnits.push(...util.remove(defendingUnits, u => u.hp <= 0));
+    lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
   }
 
   // Add back removed last if any defenders left (otherwise they're dead)
-  if (defendingUnits.length > 0)
+  // Special case: If there are any attacking planes and every remaining def
+  // unit is a sub, then all transports get destroyed
+  let isTurkeyShoot = attackingUnits.some(u => u.domain == 'air')
+    && defendingUnits.every(u => u.isSubmarine);
+
+  if (defendingUnits.length > 0 && !isTurkeyShoot) {
     defendingUnits.push(...removeLast);
-  else
+  }
+  else {
     lostDefendingUnits.push(...removeLast);
+  }
 
   // Count up IPC loss
   let atkIPCLoss = -util.sum(lostAttackingUnits, u => u.cost);

@@ -5,7 +5,9 @@ import {
   AAUnit,
   AirUnit,
   BombardUnit,
-  BattleshipUnit
+  BattleshipUnit,
+  DestroyerUnit,
+  SubmarineUnit
 } from './unit.js';
 
 let basicUnit = function(_) {
@@ -108,7 +110,12 @@ export default {
     'cost': 6,
     'move': 2,
     'domain': 'sea',
-    'factory': basicUnit,
+    'factory': function(_) {
+      return new SubmarineUnit(this.attack,
+                               this.defense,
+                               this.cost,
+                               this.domain);
+    },
     'valid': valid.seaUnit
   },
   'transport': {
@@ -130,7 +137,12 @@ export default {
     'cost': 8,
     'move': 2,
     'domain': 'sea',
-    'factory': basicUnit,
+    'factory': function(_) {
+      return new DestroyerUnit(this.attack,
+                               this.defense,
+                               this.cost,
+                               this.domain);
+    },
     'valid': valid.seaUnit
   },
   'cruiser': {
