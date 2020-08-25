@@ -7,7 +7,7 @@ import SimulationReview from './simulation-review/SimulationReview.js';
 import BattlePreview from './BattlePreview.js';
 import Footer from './Footer.js';
 import unitConfig from '../lib/unit-config.js';
-import simulate from '../lib/simulate.js';
+import simulateAsync from '../lib/simulate.js';
 import { ATTACKER_SIDE,
          DEFENDER_SIDE,
          OrderOfBattle } from '../lib/order-of-battle.js';
@@ -19,6 +19,7 @@ class Simulator extends Component {
     super(props);
     this.state = {
       simulation: null,
+      simulationResults: null,
       units: new OrderOfBattle(unitConfig)
     };
   }
@@ -27,7 +28,7 @@ class Simulator extends Component {
     let currentCount = this.state.units.unitCount(side, unitKey);
     this.setState((state, props) => ({
       units: state.units.setUnitCount(side, unitKey, currentCount + delta),
-      simulation: null // Clear simulation results since units have changed
+      simulationResults: null // Clear results since units have changed
     }));
   }
 
@@ -38,16 +39,25 @@ class Simulator extends Component {
   }
 
   handleSimulateClick() {
-    this.setState((state, props) => ({
-      simulation: simulate(state.units, N)
-    }));
+    this.setState((state, props) => {
+      let promise = simulateAsync(state.units, N).then(results => {
+        this.setState({
+          simulation: null,
+          simulationResults: results
+        });
+      });
+
+      return {
+        simulation: promise
+      };
+    });
 
     this.scrollTop();
   }
 
-  clearSimulation() {
+  clearSimulationResults() {
     this.setState({
-      simulation: null
+      simulationResults: null
     });
 
     this.scrollTop();
@@ -68,16 +78,17 @@ class Simulator extends Component {
 
   render() {
     let mainItem;
-    if (this.state.simulation) {
+    if (this.state.simulationResults) {
       mainItem = (
-        <SimulationReview simulation={this.state.simulation}
-                          onBack={() => this.clearSimulation()} />
+        <SimulationReview simulation={this.state.simulationResults}
+                          onBack={() => this.clearSimulationResults()} />
       );
     }
     else {
       mainItem = (
         <BattlePreview
           units={this.state.units}
+          simulationInProgress={this.state.simulation != null}
           onClear={(side) => this.handleUnitSummaryClear(side)}
           onSimulateClick={() => this.handleSimulateClick()}
         />
@@ -89,6 +100,7 @@ class Simulator extends Component {
         <UnitSelector
           side={ATTACKER_SIDE}
           units={this.state.units}
+          simulationInProgress={this.state.simulation != null}
           onUpdate={(unitKey, delta) => (
             this.handleSelectorUpdate(ATTACKER_SIDE, unitKey, delta)
           )}
@@ -96,6 +108,7 @@ class Simulator extends Component {
         <UnitSelector
           side={DEFENDER_SIDE}
           units={this.state.units}
+          simulationInProgress={this.state.simulation != null}
           onUpdate={(unitKey, delta) => (
             this.handleSelectorUpdate(DEFENDER_SIDE, unitKey, delta)
           )}

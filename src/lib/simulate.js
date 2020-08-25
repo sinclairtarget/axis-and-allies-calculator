@@ -117,8 +117,7 @@ function simulateOneBattle(attackingUnits,
   };
 }
 
-export default function simulate(oob, n)
-{
+function simulate(oob, n) {
   console.time('simulate');
 
   let battleDomain = oob.battleDomain;
@@ -149,4 +148,14 @@ export default function simulate(oob, n)
   console.log('results', results);
 
   return new SimulationResults(n, results, oob);
+}
+
+export default function simulateAsync(oob, n)
+{
+  // Don't do any work until after React render
+  // Gives us a chance to render "in progress" UI
+  // Long-running simulation still blocks main thread, but there's nothing else
+  // the user can interact with anyway
+  return new Promise(resolve => setTimeout(resolve)) // send to back of queue
+             .then(() => simulate(oob, n));
 }

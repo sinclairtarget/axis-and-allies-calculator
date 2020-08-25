@@ -19,7 +19,7 @@ class UnitSelectorList extends Component {
           key={unitKey}
           unit={unit}
           count={count}
-          enabled={enabled}
+          enabled={enabled && this.props.enabled}
           onUpdate={(delta) => this.handleUpdate(unitKey, delta)} />
       );
     });

@@ -57,6 +57,7 @@ class UnitSelector extends Component {
           units={this.props.units}
           side={this.props.side}
           domain={this.state.unitDomain}
+          enabled={!this.props.simulationInProgress}
           onUpdate={(unitKey, delta) => this.handleUnitUpdate(unitKey, delta)} />
       </div>
     );
