@@ -33,18 +33,48 @@ function wasConquest(attackingUnits, battleDomain) {
     return attackingUnits.some(u => u.domain == 'sea');
 }
 
-function assignHits(units, numHits) {
-  // TODO: BATTLESHIP? What if we don't use all hits? Need to double back for
-  // BB?
-  for (let i = 0; i < units.length; i++)
-  {
+// Hit assignment priority:
+// Attacker
+// 1. Battleship with 2 hp
+// 2. Lowest cost unit that is not a designated survivor
+// 3. "Designated survivor"--highest cost unit with the same domain as battle
+//
+// Defender
+// 1. Battleship with 2 hp
+// 2. Lowest cost unit
+function assignHits(units, numHits, battleDomain = null) {
+  // First, hit 2 hp battleships
+  for (let i = 0; i < units.length; i++) {
     let u = units[i];
-    if (numHits > 0)
-    {
+    if (u.hp > 1 && numHits > 0) {
       u.takeHit();
       numHits--;
     }
   }
+
+  // Hold out designated survivor if we have a domain
+  // Highest cost unit with right domain
+  let designatedSurvivor = null;
+  if (battleDomain) {
+    for (let i = 0; i < units.length; i++) {
+      let u = units[i];
+      if (u.domain == battleDomain)
+        designatedSurvivor = u;
+    }
+  }
+
+  // Now hit units in ascending cost order (array is already sorted this way)
+  for (let i = 0; i < units.length; i++) {
+    let u = units[i];
+    if (numHits > 0 && u != designatedSurvivor) {
+      u.takeHit();
+      numHits--;
+    }
+  }
+
+  // If we have hits left, designated survivor gets hit
+  if (designatedSurvivor && numHits > 0)
+    designatedSurvivor.takeHit();
 }
 
 function simulateOneBattle(attackingUnits,
@@ -92,7 +122,7 @@ function simulateOneBattle(attackingUnits,
     let defHits = util.sum(defendingUnits, u => u.rollDefense());
 
     // Assign hits
-    assignHits(attackingUnits, defHits);
+    assignHits(attackingUnits, defHits, battleDomain);
     assignHits(defendingUnits, atkHits);
 
     // Remove dead units

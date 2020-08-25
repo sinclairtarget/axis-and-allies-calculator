@@ -1,5 +1,5 @@
 # Todos
-- [ ] Unit removal
+- [x] Unit removal
 - [ ] Submarines
 - [ ] Transports
 - [ ] Scrollbars when window is too short
