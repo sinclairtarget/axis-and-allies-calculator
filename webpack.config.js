@@ -1,5 +1,8 @@
 const path = require('path');
 
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
 module.exports = {
   entry: './src/index.js',
   module: {
@@ -20,16 +23,23 @@ module.exports = {
       }
     ]
   },
-  plugins: [],
+  plugins: [
+    new CleanWebpackPlugin({
+      cleanOnceBeforeBuildPatterns: [
+        '**/*', '!images', '!images/**/*'
+      ]
+    }),
+    new HtmlWebpackPlugin({
+      template: 'src/index.html'
+    })
+  ],
   output: {
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/dist/',
-    filename: 'bundle.js'
+    filename: 'bundle.[hash].js'
   },
   devServer: {
-    contentBase: path.join(__dirname, 'public/'),
-    port: 3000,
-    publicPath: 'http://localhost:3000/dist/'
+    contentBase: path.join(__dirname, 'dist/'),
+    port: 3000
   },
   devtool: 'eval-source-map'
 };
