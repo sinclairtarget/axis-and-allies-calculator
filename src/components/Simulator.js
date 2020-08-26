@@ -68,7 +68,7 @@ class Simulator extends Component {
   }
 
   getClasses() {
-    if (this.state.simulation) {
+    if (this.state.simulationResults) {
       return "Simulator simulation";
     }
     else {
@@ -114,8 +114,10 @@ class Simulator extends Component {
           )}
         />
         <main ref={this.scrollRef}>
-          {mainItem}
-          <Footer />
+          <div className="inner-scroll-fix">
+            {mainItem}
+            <Footer />
+          </div>
         </main>
       </div>
     );

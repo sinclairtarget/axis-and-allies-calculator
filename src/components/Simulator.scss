@@ -1,17 +1,16 @@
 @import '../partials/constants';
 
 .Simulator {
+    flex: 1 0 auto;
     display: flex;
     flex-direction: column;
-    flex: 1 1 auto;
-    overflow-y: auto;
 
     main {
         display: flex;
         flex-direction: column;
 
         .BattlePreview, .SimulationResults {
-            flex: 1 1 auto;
+            flex: 1 0 auto;
         }
     }
 
@@ -42,8 +41,17 @@
         main {
             flex: 1 1 auto;
             order: 2;
-            max-height: 100%;
-            overflow-y: auto;
+            position: relative;
+            overflow: auto;
+
+            // https://stackoverflow.com/questions/38852811/create-a-row-of-flexbox-items-with-a-max-height-defined-by-one-child
+            .inner-scroll-fix {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
         }
     }
 
