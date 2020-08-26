@@ -12,6 +12,11 @@
         .BattlePreview, .SimulationResults {
             flex: 1 0 auto;
         }
+
+        .center {
+            margin: auto;
+            max-width: 1200px;
+        }
     }
 
     &.simulation .UnitSelector {
@@ -22,8 +27,9 @@
         flex-direction: row;
 
         .UnitSelector {
-            flex: 0 0 auto;
-            width: 420px;
+            flex: 1 6 400px;
+            min-width: 350px;
+            max-width: 420px;
 
             &.attack {
                 order: 1;
@@ -39,7 +45,7 @@
         }
 
         main {
-            flex: 1 1 auto;
+            flex: 6 1 50%;
             order: 2;
             position: relative;
             overflow: auto;
@@ -54,5 +60,4 @@
             }
         }
     }
-
 }

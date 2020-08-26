@@ -45,14 +45,14 @@ class Simulator extends Component {
           simulation: null,
           simulationResults: results
         });
+
+        this.scrollTop();
       });
 
       return {
         simulation: promise
       };
     });
-
-    this.scrollTop();
   }
 
   clearSimulationResults() {
@@ -115,8 +115,10 @@ class Simulator extends Component {
         />
         <main ref={this.scrollRef}>
           <div className="inner-scroll-fix">
-            {mainItem}
-            <Footer />
+            <div className="center">
+              {mainItem}
+              <Footer />
+            </div>
           </div>
         </main>
       </div>
