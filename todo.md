@@ -4,7 +4,8 @@
 - [x] Transports
 - [x] Scrollbars when window is too short
 - [x] Solution for double-tap zoom on mobile?
-- [ ] Buttons too narrow on mobile
+- [x] Buttons look weird in Chrome
+- [x] Buttons too narrow on mobile
 - [ ] React render not happening after button press on mobile
 - [ ] Alignment of "Cost" and "Units" in unit selector
 - [ ] Frequency plot tooltips

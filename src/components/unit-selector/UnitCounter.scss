@@ -19,7 +19,8 @@
         margin: 0;
         font-size: 2rem;
         position: absolute;
-        top: 50%; left: 50%;
+        top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
     }
 
@@ -50,17 +51,22 @@
             background-color: darken(#eee, 10%);
         }
 
-        p {
-            margin: 0;
-            padding: 0;
-            position: absolute;
-            top: 44%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-        }
-
         &.disabled {
             border-color: #aaa;
+        }
+
+        svg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 12px;
+            height: 12px;
+        }
+
+        svg.plus {
+            width: 14px;
+            height: 14px;
         }
     }
 }
