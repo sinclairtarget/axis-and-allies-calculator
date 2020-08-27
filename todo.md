@@ -3,6 +3,11 @@
 - [x] Submarines
 - [x] Transports
 - [x] Scrollbars when window is too short
-- [ ] Simulation performance audit
+- [x] Solution for double-tap zoom on mobile?
+- [ ] Buttons too narrow on mobile
+- [ ] React render not happening after button press on mobile
 - [ ] Alignment of "Cost" and "Units" in unit selector
 - [ ] Frequency plot tooltips
+- [ ] Prioritize conquest option
+- [ ] Retreat after one round option
+- [ ] Simulation performance audit

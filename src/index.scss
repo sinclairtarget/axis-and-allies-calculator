@@ -11,6 +11,10 @@ html {
     font-size: 62.5%;
 }
 
+* {
+    touch-action: manipulation; // disable double tap to zoom on mobile
+}
+
 @media (min-width: $desktop-width) {
     #root {
         height: 100%;
