@@ -8,9 +8,11 @@
     padding-bottom: 20px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 
     .summary {
         flex: 1 1 auto;
+        align-self: stretch;
         margin-bottom: 12px;
 
         .UnitSummaryItem {
@@ -20,15 +22,13 @@
     }
 
     .info {
-        display: flex;
         color: #eee;
         background-color: #373737;
         border-radius: 10px;
-        margin: auto;
         flex: 0 0 auto;
+        display: flex;
 
         table {
-            flex: 0 0 auto;
             margin: 12px;
         }
 
@@ -45,10 +45,8 @@
         }
 
         .Button {
-            flex: 0 0 auto;
             color: #eee;
-            background-color: #373737;
-            height: 100%;
+            background-color: transparent;
             border: none;
             border-radius: 0px 10px 10px 0px;
             border-left: 1px solid #777;
@@ -65,5 +63,9 @@
     @media (min-width: $desktop-width) {
         padding-bottom: 12px;
         min-height: 300px;
+
+        .info .Button:hover {
+            background-color: darken(#373737, 5%);
+        }
     }
 }
