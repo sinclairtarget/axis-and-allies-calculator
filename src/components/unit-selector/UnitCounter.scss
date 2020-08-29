@@ -29,17 +29,15 @@
     }
 
     .Button {
-        display: inline-block;
         font-size: 2rem;
         border: 1px solid #eee;
         border-radius: 10px;
+        position: relative;
         width: 32px;
         height: 32px;
-        position: relative;
-        cursor: pointer;
-        user-select: none;
+        padding: 0px; // Cancels user-agent style!
         color: inherit;
-        background-color: inherit;
+        background-color: transparent;
 
         &:hover:not(.disabled) {
             color: #333;

@@ -5,8 +5,9 @@
 - [x] Scrollbars when window is too short
 - [x] Solution for double-tap zoom on mobile?
 - [x] Buttons look weird in Chrome
+- [x] React render not happening after button press on mobile
 - [x] Buttons too narrow on mobile
-- [ ] React render not happening after button press on mobile
+- [x] Clear button left border on mobile
 - [ ] Alignment of "Cost" and "Units" in unit selector
 - [ ] Frequency plot tooltips
 - [ ] Prioritize conquest option
