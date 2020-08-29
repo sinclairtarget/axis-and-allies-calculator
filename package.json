@@ -20,7 +20,8 @@
     "style-loader": "^1.2.1",
     "webpack": "^4.44.0",
     "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "webpack-dev-server": "^3.11.0",
+    "workerize": "^0.1.8"
   },
   "scripts": {
     "serve": "webpack-dev-server",
