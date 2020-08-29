@@ -23,6 +23,7 @@ class BattlePreview extends Component {
         <InsetHeading text="Unit Selection" />
         <UnitSummary unitConfig={props.unitConfig}
                      units={props.units}
+                     simulationInProgress={props.simulationInProgress}
                      onClear={(role) => this.handleClear(role)} />
         <FatButton onClick={() => this.handleClick()}
                    enabled={props.units.valid && !props.simulationInProgress}>
