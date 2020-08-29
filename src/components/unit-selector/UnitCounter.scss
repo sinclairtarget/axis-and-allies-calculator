@@ -1,3 +1,5 @@
+@import '../../partials/constants';
+
 .UnitCounter {
     & > * {
         vertical-align: middle;
@@ -28,6 +30,13 @@
         color: #aaa;
     }
 
+    @media (min-width: $desktop-width) {
+        .Button:hover:not(.disabled) {
+            color: #333;
+            background-color: #eee;
+        }
+    }
+
     .Button {
         font-size: 2rem;
         border: 1px solid #eee;
@@ -38,11 +47,6 @@
         padding: 0px; // Cancels user-agent style!
         color: inherit;
         background-color: transparent;
-
-        &:hover:not(.disabled) {
-            color: #333;
-            background-color: #eee;
-        }
 
         &:active:not(.disabled) {
             color: #333;
