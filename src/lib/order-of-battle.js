@@ -1,5 +1,6 @@
 import * as util from './util.js';
 import * as valid from './valid.js';
+import unitConfig from './unit-config.js';
 
 export const ATTACKER_SIDE = 'attack';
 export const DEFENDER_SIDE = 'defense';
@@ -7,11 +8,12 @@ export const DEFENDER_SIDE = 'defense';
 const MAX_UNITS = 99;
 
 export class OrderOfBattle {
-  constructor(unitConfig) {
+  constructor(units=null) {
     this.unitConfig = unitConfig;
-    this.units = {};
-    this.units[ATTACKER_SIDE] = new Map();
-    this.units[DEFENDER_SIDE] = new Map();
+    this.units = units || {
+      [ATTACKER_SIDE]: new Map(),
+      [DEFENDER_SIDE]: new Map()
+    };
   }
 
   get valid() {

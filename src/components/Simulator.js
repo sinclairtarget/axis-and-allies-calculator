@@ -7,12 +7,14 @@ import SimulationReview from './simulation-review/SimulationReview.js';
 import BattlePreview from './BattlePreview.js';
 import Footer from './Footer.js';
 import unitConfig from '../lib/unit-config.js';
-import simulateAsync from '../lib/simulate.js';
+import simulateWorker from 'workerize-loader!../lib/simulate.js';
+import SimulationResults from '../lib/simulation-results.js';
 import { ATTACKER_SIDE,
          DEFENDER_SIDE,
          OrderOfBattle } from '../lib/order-of-battle.js';
 
 const N = 10000;
+const workerInstance = simulateWorker();
 
 class Simulator extends Component {
   constructor(props) {
@@ -20,7 +22,7 @@ class Simulator extends Component {
     this.state = {
       simulation: null,
       simulationResults: null,
-      units: new OrderOfBattle(unitConfig)
+      units: new OrderOfBattle()
     };
   }
 
@@ -40,7 +42,12 @@ class Simulator extends Component {
 
   handleSimulateClick() {
     this.setState((state, props) => {
-      let promise = simulateAsync(state.units, N).then(results => {
+      let promise = workerInstance.simulate(state.units.units, N)
+                                  .then(rawResults => {
+        // Create simulation results obj here after getting data back from
+        // the web worker
+        let results = new SimulationResults(N, rawResults, state.units);
+
         this.setState({
           simulation: null,
           simulationResults: results
@@ -50,7 +57,7 @@ class Simulator extends Component {
       });
 
       return {
-        simulation: promise
+        simulation: promise // Current simulation-in-progress is saved
       };
     });
   }

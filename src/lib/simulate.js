@@ -1,6 +1,6 @@
 import * as util from './util.js';
-import SimulationResults,
-       { ATTACKER_KEY, DEFENDER_KEY } from './simulation-results.js';
+import { OrderOfBattle } from './order-of-battle.js';
+import { ATTACKER_KEY, DEFENDER_KEY } from './simulation-results.js';
 
 function buildUnits(unitCounts, unitConfig) {
   let numArty = unitCounts.has('artillery') ? unitCounts.get('artillery') : 0;
@@ -208,8 +208,11 @@ function simulateOneBattle(attackingUnits,
   };
 }
 
-function simulate(oob, n) {
+export function simulate(units, n) {
   console.time('simulate');
+
+  // Recreat oob, since complex obj with methods can't be passed to the worker
+  let oob = new OrderOfBattle(units);
 
   let battleDomain = oob.battleDomain;
 
@@ -236,17 +239,5 @@ function simulate(oob, n) {
 
   console.timeEnd('simulate');
 
-  console.log('results', results);
-
-  return new SimulationResults(n, results, oob);
-}
-
-export default function simulateAsync(oob, n)
-{
-  // Don't do any work until after React render
-  // Gives us a chance to render "in progress" UI
-  // Long-running simulation still blocks main thread, but there's nothing else
-  // the user can interact with anyway
-  return new Promise(resolve => setTimeout(resolve)) // send to back of queue
-             .then(() => simulate(oob, n));
+  return results;
 }
