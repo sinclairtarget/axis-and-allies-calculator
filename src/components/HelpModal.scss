@@ -37,17 +37,23 @@
         font-weight: bold;
         font-size: 1.8rem;
         position: absolute;
-        top: 16px;
+        top: 12px;
         right: 12px;
         background-color: transparent;
         border: none;
         color: #eee;
         cursor: pointer;
+        padding: 0;
     }
 
     @media (min-width: $desktop-width) {
         .text-container {
             padding: 20px;
+        }
+
+        .exit-button {
+            top: 20px;
+            right: 20px;
         }
     }
 }
