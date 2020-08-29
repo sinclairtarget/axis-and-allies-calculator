@@ -20,6 +20,7 @@
     }
 
     .info {
+        display: flex;
         color: #eee;
         background-color: #373737;
         border-radius: 10px;
@@ -27,8 +28,7 @@
         flex: 0 0 auto;
 
         table {
-            display: inline-block;
-            vertical-align: middle;
+            flex: 0 0 auto;
             margin: 12px;
         }
 
@@ -45,8 +45,7 @@
         }
 
         .Button {
-            display: inline-block;
-            vertical-align: middle;
+            flex: 0 0 auto;
             color: #eee;
             background-color: #373737;
             height: 100%;
