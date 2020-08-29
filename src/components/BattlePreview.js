@@ -25,7 +25,7 @@ class BattlePreview extends Component {
 
     return (
       <div className="BattlePreview">
-        <InsetHeading text="Unit Selection" />
+        <InsetHeading text="Unit Summary" />
         <UnitSummary unitConfig={props.unitConfig}
                      units={props.units}
                      simulationInProgress={props.simulationInProgress}
