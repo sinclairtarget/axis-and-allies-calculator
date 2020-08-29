@@ -6,6 +6,7 @@ import UnitSelector from './unit-selector/UnitSelector.js';
 import SimulationReview from './simulation-review/SimulationReview.js';
 import BattlePreview from './BattlePreview.js';
 import Footer from './Footer.js';
+import HelpModal from './HelpModal.js';
 import unitConfig from '../lib/unit-config.js';
 import simulateWorker from 'workerize-loader!../lib/simulate.js';
 import SimulationResults from '../lib/simulation-results.js';
@@ -26,7 +27,8 @@ class Simulator extends Component {
       options: {
         prioritizeConquest: true,
         oneRoundOnly: false
-      }
+      },
+      showingHelpModal: false
     };
   }
 
@@ -55,7 +57,8 @@ class Simulator extends Component {
 
         this.setState({
           simulation: null,
-          simulationResults: results
+          simulationResults: results,
+          showingHelpModal: false
         });
 
         this.scrollTop();
@@ -74,6 +77,15 @@ class Simulator extends Component {
         options: {...state.options, [optionName]: newValue }
       };
     });
+  }
+
+  showHelpModal(shouldShow) {
+    this.setState({
+        showingHelpModal: shouldShow
+    });
+
+    if (shouldShow)
+      this.scrollTop();
   }
 
   clearSimulationResults() {
@@ -97,6 +109,15 @@ class Simulator extends Component {
     }
   }
 
+  renderHelpModal() {
+    if (!this.state.showingHelpModal)
+      return null;
+
+    return (
+      <HelpModal onExit={() => this.showHelpModal(false)} />
+    );
+  }
+
   render() {
     let mainItem;
     if (this.state.simulationResults) {
@@ -114,9 +135,12 @@ class Simulator extends Component {
           onOptionToggle={(opName) => this.handleOptionToggle(opName)}
           onClear={(side) => this.handleUnitSummaryClear(side)}
           onSimulateClick={() => this.handleSimulateClick()}
+          onHelpClick={() => this.showHelpModal(true)}
         />
       );
     }
+
+    let helpModal = this.renderHelpModal();
 
     return (
       <div className={this.getClasses()}>
@@ -144,6 +168,7 @@ class Simulator extends Component {
             </div>
           </div>
         </main>
+        {helpModal}
       </div>
     );
   }

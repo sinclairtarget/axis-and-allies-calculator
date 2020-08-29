@@ -13,4 +13,4 @@
 - [x] Prioritize conquest option
 - [x] Retreat after one round option
 - [ ] Simulation performance audit
-- [ ] Modal help
+- [x] Modal help

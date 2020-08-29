@@ -20,6 +20,10 @@ class BattlePreview extends Component {
     this.props.onOptionToggle(optionName);
   }
 
+  handleHelpClick() {
+    this.props.onHelpClick();
+  }
+
   render() {
     let props = this.props;
 
@@ -32,6 +36,7 @@ class BattlePreview extends Component {
                      onClear={(role) => this.handleClear(role)} />
         <Options options={props.options}
                  onToggle={(optionName) => this.handleOptionToggle(optionName)}
+                 onHelpClick={() => this.handleHelpClick()}
                  enabled={!props.simulationInProgress} />
         <FatButton onClick={() => this.handleClick()}
                    enabled={props.units.valid && !props.simulationInProgress}>
