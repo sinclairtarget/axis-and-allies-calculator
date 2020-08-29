@@ -11,6 +11,6 @@
 - [x] Alignment of "Cost" and "Units" in unit selector
 - [ ] Frequency plot tooltips
 - [x] Prioritize conquest option
-- [ ] Retreat after one round option
+- [x] Retreat after one round option
 - [ ] Simulation performance audit
 - [ ] Modal help

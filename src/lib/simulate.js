@@ -22,9 +22,12 @@ function buildUnits(unitCounts, unitConfig) {
   return units.reduce((a, b) => a.concat(b), []);
 }
 
-// Conquest successful if there is an attacking unit that can occupy the
-// territory.
-function wasConquest(attackingUnits, battleDomain) {
+// Conquest successful if there are no defending units and there is an
+// attacking unit that can occupy the territory.
+function wasConquest(attackingUnits, defendingUnits, battleDomain) {
+  if (defendingUnits.length > 0)
+    return false;
+
   if (battleDomain == 'air')
     return false;                        // Air units can't conquer territory
   else if (battleDomain == 'land')
@@ -186,6 +189,9 @@ function simulateOneBattle(attackingUnits,
     // Remove dead units
     lostDefendingUnits.push(...util.remove(defendingUnits, u => u.hp <= 0));
     lostAttackingUnits.push(...util.remove(attackingUnits, u => u.hp <= 0));
+
+    if (options.oneRoundOnly)
+      break;
   }
 
   // Add back removed last if any defenders left (otherwise they're dead)
@@ -208,7 +214,7 @@ function simulateOneBattle(attackingUnits,
   return {
     [ATTACKER_KEY]: atkIPCLoss,
     [DEFENDER_KEY]: defIPCLoss,
-    conquest: wasConquest(attackingUnits, battleDomain)
+    conquest: wasConquest(attackingUnits, defendingUnits, battleDomain)
   };
 }
 
