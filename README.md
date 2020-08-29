@@ -4,6 +4,7 @@ out the odds that you will win a particular battle, along with a breakdown of
 the different likely outcomes.
 
 ![](./vanity-screenshot.png)
+![](./vanity-screenshot-2.png)
 
 ## Development
 This is a React app that manages dependencies using Yarn.
