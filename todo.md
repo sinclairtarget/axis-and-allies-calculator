@@ -8,8 +8,9 @@
 - [x] React render not happening after button press on mobile
 - [x] Buttons too narrow on mobile
 - [x] Clear button left border on mobile
-- [ ] Alignment of "Cost" and "Units" in unit selector
+- [x] Alignment of "Cost" and "Units" in unit selector
 - [ ] Frequency plot tooltips
-- [ ] Prioritize conquest option
+- [x] Prioritize conquest option
 - [ ] Retreat after one round option
 - [ ] Simulation performance audit
+- [ ] Modal help

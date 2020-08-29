@@ -42,7 +42,9 @@ function wasConquest(attackingUnits, battleDomain) {
 // Defender
 // 1. Battleship with 2 hp
 // 2. Lowest cost unit
-function assignHits(units, numHits, battleDomain = null) {
+function assignHits(units, numHits, battleDomain = null,
+                    prioritizeConquest = false)
+{
   // First, hit 2 hp battleships
   for (let i = 0; i < units.length; i++) {
     let u = units[i];
@@ -55,7 +57,7 @@ function assignHits(units, numHits, battleDomain = null) {
   // Hold out designated survivor if we have a domain
   // Highest cost unit with right domain
   let designatedSurvivor = null;
-  if (battleDomain) {
+  if (prioritizeConquest && battleDomain) {
     for (let i = 0; i < units.length; i++) {
       let u = units[i];
       if (u.hp > 0 && u.domain == battleDomain)
@@ -89,7 +91,8 @@ function hitsPossible(attackingUnits, defendingUnits) {
 
 function simulateOneBattle(attackingUnits,
                            defendingUnits,
-                           battleDomain)
+                           battleDomain,
+                           options)
 {
   let lostAttackingUnits = [];
   let lostDefendingUnits = [];
@@ -166,7 +169,7 @@ function simulateOneBattle(attackingUnits,
       let airHits = util.sum(defendingUnits.filter(u => u.domain == 'air'),
                              u => u.rollAttack());
       assignHits(attackingUnits.filter(u => !u.isSubmarine), airHits,
-                 battleDomain);
+                 battleDomain, options.prioritizeConquest);
     }
 
     // Calculate hits for remaining attackers
@@ -177,7 +180,8 @@ function simulateOneBattle(attackingUnits,
 
     // Assign hits
     assignHits(defendingUnits, atkHits);
-    assignHits(attackingUnits, defHits, battleDomain);
+    assignHits(attackingUnits, defHits, battleDomain,
+               options.prioritizeConquest);
 
     // Remove dead units
     lostDefendingUnits.push(...util.remove(defendingUnits, u => u.hp <= 0));
@@ -208,7 +212,7 @@ function simulateOneBattle(attackingUnits,
   };
 }
 
-export function simulate(units, n) {
+export function simulate(units, n, options={}) {
   console.time('simulate');
 
   // Recreat oob, since complex obj with methods can't be passed to the worker
@@ -234,7 +238,9 @@ export function simulate(units, n) {
     let defThisSim = def.map(unit => unit.clone());
 
     // Append simulated battle result
-    results.push(simulateOneBattle(atkThisSim, defThisSim, battleDomain));
+    let battleResult = simulateOneBattle(atkThisSim, defThisSim,
+                                         battleDomain, options);
+    results.push(battleResult);
   }
 
   console.timeEnd('simulate');

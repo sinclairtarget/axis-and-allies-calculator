@@ -1,0 +1,36 @@
+.Options {
+    color: #eee;
+    text-align: center;
+    margin: auto;
+    margin-bottom: 60px;
+
+    .heading {
+        font-size: 2.2rem;
+        font-weight: bold;
+        color: #777;
+        margin: 1em 0px;
+        margin-bottom: 0.6em;
+    }
+
+    .option-group-container {
+        display: inline-block;
+    }
+
+    .option-group {
+        text-align: left;
+        margin-bottom: 12px;
+    }
+
+    label {
+        font-size: 1.4rem;
+
+        // Padding instead of margin so spacing is still clickable
+        padding-left: 12px;
+    }
+
+    input, label {
+        display: inline-block;
+        vertical-align: middle;
+        cursor: pointer;
+    }
+}

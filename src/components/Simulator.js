@@ -22,7 +22,11 @@ class Simulator extends Component {
     this.state = {
       simulation: null,
       simulationResults: null,
-      units: new OrderOfBattle()
+      units: new OrderOfBattle(),
+      options: {
+        prioritizeConquest: true,
+        oneRoundOnly: false
+      }
     };
   }
 
@@ -42,8 +46,9 @@ class Simulator extends Component {
 
   handleSimulateClick() {
     this.setState((state, props) => {
-      let promise = workerInstance.simulate(state.units.units, N)
-                                  .then(rawResults => {
+      let promise =
+        workerInstance.simulate(state.units.units, N, state.options)
+                      .then(rawResults => {
         // Create simulation results obj here after getting data back from
         // the web worker
         let results = new SimulationResults(N, rawResults, state.units);
@@ -58,6 +63,15 @@ class Simulator extends Component {
 
       return {
         simulation: promise // Current simulation-in-progress is saved
+      };
+    });
+  }
+
+  handleOptionToggle(optionName) {
+    this.setState((state, props) => {
+      let newValue = !state.options[optionName];
+      return {
+        options: {...state.options, [optionName]: newValue }
       };
     });
   }
@@ -96,6 +110,8 @@ class Simulator extends Component {
         <BattlePreview
           units={this.state.units}
           simulationInProgress={this.state.simulation != null}
+          options={this.state.options}
+          onOptionToggle={(opName) => this.handleOptionToggle(opName)}
           onClear={(side) => this.handleUnitSummaryClear(side)}
           onSimulateClick={() => this.handleSimulateClick()}
         />
