@@ -16,9 +16,11 @@ const vizMargin = {
 const vizPadding = {
   top: 20,
   right: 20,
-  bottom: 50,
+  bottom: 53,
   left: 68
 };
+
+const TICK_PADDING = 8;
 
 function calcFrequency(simulation, vizKey) {
   // Group by IPC
@@ -90,7 +92,7 @@ export default class FreqPlot extends Component {
     // Add axes
     let xTicks = calcXAxisTicks(xDomain, this.props.maxTicks);
     let xAxis = d3.axisBottom(this.xScale)
-                  .tickPadding(5)
+                  .tickPadding(TICK_PADDING)
                   .tickValues(xTicks);
     let yAxis = d3.axisLeft(this.yScale)
                   .tickFormat(d3.format('.0%'));
@@ -134,7 +136,7 @@ export default class FreqPlot extends Component {
     this.xTitle =
       this.panel.append("text")
                 .attr("x", this.dim.padding.left + plotWidth / 2)
-                .attr("y", plotHeight + this.dim.padding.top + 48)
+                .attr("y", plotHeight + this.dim.padding.top + 51)
                 .attr("text-anchor", "middle")
                 .attr("class", "axis-title x-axis-title")
                 .text("IPC Loss");
