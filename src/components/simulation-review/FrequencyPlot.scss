@@ -2,6 +2,7 @@
     display: block;
     margin: auto;
     max-width: 100%;
+    position: relative;
 
     rect {
         fill: #eee;
@@ -15,5 +16,15 @@
 
     text.axis-title {
         font-size: 1.6rem;
+    }
+
+    .tooltip {
+        position: absolute;
+        z-index: 1;
+        padding: 8px;
+        color: #ddd;
+        background-color: black;
+        font-size: 1.4rem;
+        white-space: nowrap;
     }
 }

@@ -9,8 +9,9 @@
 - [x] Buttons too narrow on mobile
 - [x] Clear button left border on mobile
 - [x] Alignment of "Cost" and "Units" in unit selector
-- [ ] Frequency plot tooltips
+- [x] Frequency plot tooltips
 - [x] Prioritize conquest option
 - [x] Retreat after one round option
 - [ ] Simulation performance audit
 - [x] Modal help
+- [ ] AA guns destroyed when only attacked by planes?

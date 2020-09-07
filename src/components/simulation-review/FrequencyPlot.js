@@ -22,6 +22,8 @@ const vizPadding = {
 
 const TICK_PADDING = 8;
 
+let formatProbability = d3.format('.0%');
+
 function calcFrequency(simulation, vizKey) {
   // Group by IPC
   let grouped = simulation.results.reduce((map, result) => {
@@ -52,6 +54,7 @@ function calcXAxisTicks(xDomain, maxCount) {
 export default class FreqPlot extends Component {
   constructor(props) {
     super(props);
+    this.divRef = React.createRef();
     this.svgRef = React.createRef();
     this.dim = new Dimensions(props.width,
                               props.height,
@@ -62,11 +65,7 @@ export default class FreqPlot extends Component {
   componentDidMount() {
     let data = calcFrequency(this.props.simulation, this.props.vizKey);
     this.setUp(data);
-  }
-
-  componentDidUpdate() {
-    let data = calcFrequency(this.props.simulation, this.props.vizKey);
-    this.update(data);
+    this.setUpTooltip();
   }
 
   setUp(data) {
@@ -95,7 +94,7 @@ export default class FreqPlot extends Component {
                   .tickPadding(TICK_PADDING)
                   .tickValues(xTicks);
     let yAxis = d3.axisLeft(this.yScale)
-                  .tickFormat(d3.format('.0%'));
+                  .tickFormat(formatProbability);
 
     this.panel.append("g")
               .attr("transform", util.transl(this.dim.padding.left,
@@ -142,13 +141,39 @@ export default class FreqPlot extends Component {
                 .text("IPC Loss");
   }
 
-  update(data) {
+  setUpTooltip() {
+    this.tooltip = d3.select(this.divRef.current)
+                      .append('div')
+                      .attr('class', 'tooltip')
+                      .style('visibility', 'hidden');
+
+    this.plot.selectAll('rect')
+             .on('mouseenter', (_, [ipc, p]) => {
+               this.tooltip.style('visibility', 'visible')
+                           .text(this.textForTooltip(ipc, p));
+             })
+             .on('mousemove', (ev) => {
+               let [x, y] = d3.pointer(ev, this.divRef.current);
+
+               this.tooltip.style('left', x + 5 + 'px')
+                           .style('top', y + 5 + 'px');
+             })
+             .on('mouseleave', () => {
+               this.tooltip.style('visibility', 'hidden');
+             });
+  }
+
+  textForTooltip(ipcLoss, probability) {
+    return `${formatProbability(probability)} chance of ${ipcLoss} IPC`;
   }
 
   render() {
-    return <svg className="FrequencyPlot"
-                width="100%"
-                height="100%"
-                ref={this.svgRef} />;
+    return (
+      <div className="FrequencyPlot" ref={this.divRef} >
+        <svg width="100%"
+             height="100%"
+             ref={this.svgRef} />
+      </div>
+    );
   }
 }
