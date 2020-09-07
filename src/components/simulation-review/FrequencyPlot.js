@@ -164,7 +164,10 @@ export default class FreqPlot extends Component {
   }
 
   textForTooltip(ipcLoss, probability) {
-    return `${formatProbability(probability)} chance of ${ipcLoss} IPC`;
+    if (ipcLoss == 0)
+      return `${formatProbability(probability)} chance of no losses`;
+    else
+      return `${formatProbability(probability)} chance of ${ipcLoss} IPC`;
   }
 
   render() {
