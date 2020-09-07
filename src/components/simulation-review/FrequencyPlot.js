@@ -159,7 +159,11 @@ export default class FreqPlot extends Component {
                            .style('top', y + 5 + 'px');
              })
              .on('mouseleave', () => {
-               this.tooltip.style('visibility', 'hidden');
+               this.tooltip.style('visibility', 'hidden')
+                           // Move back to left all the way, because if the
+                           // tooltip is overflowing, it will continue causing
+                           // the containing div to expand even if not visible
+                           .style('left', '0px');
              });
   }
 
