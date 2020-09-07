@@ -73,7 +73,7 @@ export default class FreqPlot extends Component {
     let plotHeight = this.dim.plotHeight();
 
     let xDomain = data.map(([ipc, p]) => ipc)
-                      .sort((a, b) => a > b ? 1 : b > a ? -1 : 0);
+                      .sort((a, b) => a < b ? 1 : b < a ? -1 : 0);
     this.xScale = d3.scaleBand(xDomain, [0, plotWidth])
                     .padding(0.2);
 
