@@ -33,14 +33,18 @@ class SimulationReview extends Component {
           <ReviewSection title="Conquest Chance">
             <ConquestChance simulation={props.simulation} />
           </ReviewSection>
-          <ReviewSection title="Attacker Losses">
+          <ReviewSection title="Expected Attacker Losses">
+          </ReviewSection>
+          <ReviewSection title="Probability Distribution of Attacker Losses">
             <FrequencyPlot simulation={props.simulation}
                            vizKey={ATTACKER_KEY}
                            width={VIZ_WIDTH}
                            height={VIZ_HEIGHT}
                            maxTicks={VIZ_MAX_TICKS} />
           </ReviewSection>
-          <ReviewSection title="Defender Losses">
+          <ReviewSection title="Expected Defender Losses">
+          </ReviewSection>
+          <ReviewSection title="Probability Distribution of Defender Losses">
             <FrequencyPlot simulation={props.simulation}
                            vizKey={DEFENDER_KEY}
                            width={VIZ_WIDTH}
