@@ -134,7 +134,6 @@ class Simulator extends Component {
           simulationInProgress={this.state.simulation != null}
           options={this.state.options}
           onOptionToggle={(opName) => this.handleOptionToggle(opName)}
-          onClear={(side) => this.handleUnitSummaryClear(side)}
           onSimulateClick={() => this.handleSimulateClick()}
           onHelpClick={() => this.showHelpModal(true)}
         />

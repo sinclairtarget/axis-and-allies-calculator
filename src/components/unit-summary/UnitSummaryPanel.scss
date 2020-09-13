@@ -26,7 +26,6 @@
         background-color: #373737;
         border-radius: 10px;
         flex: 0 0 auto;
-        display: flex;
 
         table {
             margin: 12px;
@@ -43,29 +42,10 @@
         td:not(:last-child) {
             padding-right: 12px;
         }
-
-        .Button {
-            color: #eee;
-            background-color: transparent;
-            border: none;
-            border-radius: 0px 10px 10px 0px;
-            border-left: 1px solid #777;
-            padding: 0px 12px;
-            user-select: none;
-            font-weight: bold;
-
-            &.disabled {
-                color: #aaa;
-            }
-        }
     }
 
     @media (min-width: $desktop-width) {
         padding-bottom: 12px;
         min-height: 300px;
-
-        .info .Button:hover {
-            background-color: darken(#373737, 5%);
-        }
     }
 }

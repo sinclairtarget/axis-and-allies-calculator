@@ -7,10 +7,6 @@ import { ATTACKER_SIDE, DEFENDER_SIDE } from '../../lib/order-of-battle.js';
 import './UnitSummaryPanel.scss';
 
 class UnitSummaryPanel extends Component {
-  handleClear() {
-    this.props.onClear();
-  }
-
   renderPower() {
     let props = this.props;
     if (props.side == ATTACKER_SIDE) {
@@ -31,17 +27,6 @@ class UnitSummaryPanel extends Component {
     }
   }
 
-  renderButton() {
-    if (this.props.units.totalUnits(this.props.side) > 0) {
-      return (
-        <Button onClick={() => this.handleClear()}
-                enabled={!this.props.simulationInProgress}>Clear</Button>
-      );
-    }
-
-    return null;
-  }
-
   render() {
     let props = this.props;
 
@@ -58,7 +43,6 @@ class UnitSummaryPanel extends Component {
     });
 
     let power = this.renderPower();
-    let button = this.renderButton();
 
     return (
       <div className="UnitSummaryPanel">
@@ -75,7 +59,6 @@ class UnitSummaryPanel extends Component {
               {power}
             </tbody>
           </table>
-          {button}
         </div>
       </div>
     );

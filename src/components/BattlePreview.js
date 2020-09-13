@@ -8,10 +8,6 @@ import Options from './Options.js';
 import './BattlePreview.scss';
 
 class BattlePreview extends Component {
-  handleClear(role) {
-    this.props.onClear(role);
-  }
-
   handleClick() {
     this.props.onSimulateClick();
   }
@@ -31,9 +27,7 @@ class BattlePreview extends Component {
       <div className="BattlePreview">
         <InsetHeading text="Unit Summary" />
         <UnitSummary unitConfig={props.unitConfig}
-                     units={props.units}
-                     simulationInProgress={props.simulationInProgress}
-                     onClear={(role) => this.handleClear(role)} />
+                     units={props.units} />
         <Options options={props.options}
                  onToggle={(optionName) => this.handleOptionToggle(optionName)}
                  onHelpClick={() => this.handleHelpClick()}
