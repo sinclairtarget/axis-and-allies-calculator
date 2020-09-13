@@ -1,0 +1,23 @@
+.ExpectedLoss {
+    color: #eee;
+
+    .big-number {
+        text-align: center;
+        font-size: 4rem;
+
+        &:after {
+            content: "IPC";
+            font-size: 1.7rem;
+            margin-left: 12px;
+            vertical-align: middle;
+        }
+    }
+
+    .note {
+        margin: auto;
+        line-height: 1.4;
+        font-size: 1.3rem;
+        max-width: 400px;
+        text-align: center;
+    }
+}
