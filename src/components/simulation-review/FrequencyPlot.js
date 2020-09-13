@@ -142,21 +142,26 @@ export default class FreqPlot extends Component {
   }
 
   setUpTooltip() {
+    let tooltipBuffer = 5;
+
     this.tooltip = d3.select(this.divRef.current)
                       .append('div')
                       .attr('class', 'tooltip')
                       .style('visibility', 'hidden');
 
     this.plot.selectAll('rect')
-             .on('mouseenter', (_, [ipc, p]) => {
+             .on('mouseenter', (ev, [ipc, p]) => {
+               let [x, y] = d3.pointer(ev, this.divRef.current);
                this.tooltip.style('visibility', 'visible')
+                           .style('left', x + tooltipBuffer + 'px')
+                           .style('top', y + tooltipBuffer + 'px')
                            .text(this.textForTooltip(ipc, p));
              })
              .on('mousemove', (ev) => {
                let [x, y] = d3.pointer(ev, this.divRef.current);
 
-               this.tooltip.style('left', x + 5 + 'px')
-                           .style('top', y + 5 + 'px');
+               this.tooltip.style('left', x + tooltipBuffer + 'px')
+                           .style('top', y + tooltipBuffer + 'px');
              })
              .on('mouseleave', () => {
                this.tooltip.style('visibility', 'hidden')
@@ -168,10 +173,15 @@ export default class FreqPlot extends Component {
   }
 
   textForTooltip(ipcLoss, probability) {
-    if (ipcLoss == 0)
-      return `${formatProbability(probability)} chance of no losses`;
-    else
-      return `${formatProbability(probability)} chance of ${ipcLoss} IPC`;
+    let probString = '<1% ';
+    if (probability > 0.01)
+      probString = `${formatProbability(probability)} `;
+
+    let lossString = 'chance of no losses';
+    if (ipcLoss != 0)
+      lossString = `chance of ${ipcLoss} IPC`;
+
+    return probString + lossString;
   }
 
   render() {
