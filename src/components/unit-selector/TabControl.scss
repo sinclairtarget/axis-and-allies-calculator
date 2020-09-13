@@ -4,6 +4,7 @@
     list-style: none;
     margin: 0;
     padding: 0;
+    position: relative;
 
     li {
         display: inline-block;
@@ -18,6 +19,34 @@
 
     li:hover {
         font-weight: bold;
+    }
+
+    .Button {
+        color: #eee;
+        background-color: transparent;
+        font-weight: bold;
+        border: 1px solid #eee;
+        border-radius: 10px;
+        padding: 6px 8px;
+        position: absolute;
+        right: 12px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        &.disabled {
+            color: #aaa;
+            border-color: #aaa;
+        }
+
+        &:hover:not(.disabled) {
+            color: #333;
+            background-color: #eee;
+        }
+
+        &:active:not(.disabled) {
+            color: #333;
+            background-color: darken(#eee, 10%);
+        }
     }
 }
 

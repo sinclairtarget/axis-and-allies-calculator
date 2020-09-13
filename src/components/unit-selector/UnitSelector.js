@@ -37,6 +37,10 @@ class UnitSelector extends Component {
     });
   }
 
+  handleClear() {
+    this.props.onClear(this.props.side);
+  }
+
   handleUnitUpdate(unitKey, delta) {
     this.props.onUpdate(unitKey, delta);
   }
@@ -46,13 +50,18 @@ class UnitSelector extends Component {
   }
 
   render() {
+    let shouldShowButton = this.props.units.totalUnits(this.props.side) > 0;
+
     return (
       <div className={`UnitSelector ${this.props.side}`}>
         <InsetHeading text={this.labelForSide()} />
         <TabControl side={this.props.side}
                     tabs={TABS}
                     selected={this.state.unitDomain}
-                    onSwitch={(tabKey) => this.handleTabSwitch(tabKey)} />
+                    onSwitch={(tabKey) => this.handleTabSwitch(tabKey)}
+                    showButton={shouldShowButton}
+                    simulationInProgress={this.props.simulationInProgress}
+                    onClear={() => this.handleClear()} />
         <UnitSelectorList
           units={this.props.units}
           side={this.props.side}

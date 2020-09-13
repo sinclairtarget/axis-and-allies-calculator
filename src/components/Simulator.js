@@ -42,7 +42,8 @@ class Simulator extends Component {
 
   handleUnitSummaryClear(side) {
     this.setState((state, props) => ({
-      units: state.units.clear(side)
+      units: state.units.clear(side),
+      simulationResults: null // Clear results since units have changed
     }));
   }
 
@@ -151,6 +152,7 @@ class Simulator extends Component {
           onUpdate={(unitKey, delta) => (
             this.handleSelectorUpdate(ATTACKER_SIDE, unitKey, delta)
           )}
+          onClear={(side) => this.handleUnitSummaryClear(side)}
         />
         <UnitSelector
           side={DEFENDER_SIDE}
@@ -159,6 +161,7 @@ class Simulator extends Component {
           onUpdate={(unitKey, delta) => (
             this.handleSelectorUpdate(DEFENDER_SIDE, unitKey, delta)
           )}
+          onClear={(side) => this.handleUnitSummaryClear(side)}
         />
         <main ref={this.scrollRef}>
           <div className="inner-scroll-fix">
