@@ -124,3 +124,9 @@ export class SubmarineUnit extends Unit {
     return true;
   }
 }
+
+export class TransportUnit extends Unit {
+  get removedLast() {
+    return true;
+  }
+}

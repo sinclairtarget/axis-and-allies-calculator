@@ -15,3 +15,6 @@
 - [ ] Simulation performance audit
 - [x] Modal help
 - [ ] AA guns destroyed when only attacked by planes?
+- [x] Submarines attacking destroyer + transports doesn't seem right
+- [ ] Add clear button in selector for mobile
+- [ ] Add cumulative probability of greater than x losses
