@@ -170,7 +170,7 @@ function simulateOneBattle(attackingUnits,
 
     if (!isDefDestroyer) {
       let airHits = util.sum(defendingUnits.filter(u => u.domain == 'air'),
-                             u => u.rollAttack());
+                             u => u.rollDefense());
       assignHits(attackingUnits.filter(u => !u.isSubmarine), airHits,
                  battleDomain, options.prioritizeConquest);
     }
