@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import * as d3 from 'd3';
 
 import Dimensions from '../../lib/dimensions.js';
+import { ATTACKER_KEY, DEFENDER_KEY } from '../../lib/simulation-results.js';
 import * as util from '../../lib/util.js';
 
 import './FrequencyPlot.scss';
@@ -184,12 +185,19 @@ export default class FreqPlot extends Component {
     return probString + lossString;
   }
 
+  noteText() {
+    let side = this.props.vizKey == ATTACKER_KEY ? 'attacker' : 'defender';
+    return `This shows the probabilities of all possible outcomes of a single
+            battle for the ${side}.`;
+  }
+
   render() {
     return (
       <div className="FrequencyPlot" ref={this.divRef} >
         <svg width="100%"
              height="100%"
              ref={this.svgRef} />
+        <p className="note">{this.noteText()}</p>
       </div>
     );
   }
