@@ -14,7 +14,8 @@
 - [x] Retreat after one round option
 - [ ] Simulation performance audit
 - [x] Modal help
-- [ ] AA guns destroyed when only attacked by planes?
+- [x] AA guns destroyed when only attacked by planes? (How it works!)
 - [x] Submarines attacking destroyer + transports doesn't seem right
 - [x] Add clear button in selector for mobile
 - [ ] Add cumulative probability of greater than x losses
+- [x] Removed last units should only be removed if there are still attackers

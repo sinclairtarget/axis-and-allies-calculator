@@ -194,13 +194,15 @@ function simulateOneBattle(attackingUnits,
       break;
   }
 
-  // Add back removed last if any defenders left (otherwise they're dead)
-  // Special case: If there are any attacking planes and every remaining def
-  // unit is a sub, then all transports get destroyed
+  // If there are defending units left and they are not all subs, or if there
+  // are no more attackers, we can add back the "removed last" units we removed
+  // earlier (otherwise they're dead)
   let isTurkeyShoot = attackingUnits.some(u => u.domain == 'air')
     && defendingUnits.every(u => u.isSubmarine);
 
-  if (defendingUnits.length > 0 && !isTurkeyShoot) {
+  if ((defendingUnits.length > 0 && !isTurkeyShoot)
+       || attackingUnits.length == 0)
+  {
     defendingUnits.push(...removeLast);
   }
   else {
