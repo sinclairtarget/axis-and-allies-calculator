@@ -19,7 +19,9 @@ export default class SimulationResults {
     let battleDomain = this.oob.battleDomain;
     if (battleDomain == 'land')
       return 'Land Battle';
-    else
+    else if (battleDomain == 'sea')
       return 'Naval Battle';
+    else
+      return 'Air Battle';
   }
 }
