@@ -14,3 +14,5 @@ To run locally:
 $ yarn install
 $ yarn serve
 ```
+
+# If you run into install issues it may be an incompatiablity with your node version. Try node v14.21.3
