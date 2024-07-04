@@ -1,12 +1,22 @@
-on: push
+# .github/workflows/release-package.yml
+#from https://dev.to/brandonwie/publish-packages-via-github-packages-feat-yarn-12jh
+name: on release
+
+on:
+    release:
+        types: [created]
+
 jobs:
-  build-node:
-  runs-on: ubuntu-latest
-  container: node14
-  steps:
-    - run: node --veresion
-    - run: npm --version 
-    - uses: actions/checkout@v3
-    - run: npm install
-    - run: yarn install
-    - run: yarn serve
+    publish-github-registry:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  registry-url: https://npm.pkg.github.com/
+            - run: yarn install
+            - run: yarn build
+            - run: yarn publish
+              env:
+                  NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
